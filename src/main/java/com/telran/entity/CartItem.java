@@ -1,4 +1,4 @@
-package entity;
+package com.telran.entity;
 
 public class CartItem {
     private Long id;

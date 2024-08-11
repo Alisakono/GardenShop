@@ -1,6 +1,6 @@
-package repository;
+package com.telran.repository;
 
-import entity.Product;
+import com.telran.entity.Product;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,4 +10,5 @@ public class ProductRepository {
     public List<Product> getAll() {
         return Product.products;
     }
+
 }

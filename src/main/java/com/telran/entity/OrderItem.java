@@ -1,4 +1,4 @@
-package entity;
+package com.telran.entity;
 
 import java.math.BigDecimal;
 

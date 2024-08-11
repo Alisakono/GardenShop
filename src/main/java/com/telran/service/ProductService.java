@@ -1,9 +1,9 @@
-package service;
+package com.telran.service;
 
-import entity.Product;
+import com.telran.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import repository.ProductRepository;
+import com.telran.repository.ProductRepository;
 
 import java.util.List;
 
@@ -19,6 +19,9 @@ public class ProductService {
     public List<Product> getAll() {
 
         return repository.getAll();
+    }
+    public List<Product> getAllByName(String name) {
+        return repository.getAll().stream().filter(n->n.getName().startsWith(name)).toList();
     }
 
 }
