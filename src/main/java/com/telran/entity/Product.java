@@ -1,34 +1,36 @@
 package com.telran.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-//@Entity
+@Entity
 
 public class Product {
-private Long id;
+    @Id
+    private Integer id;
 private String name;
 private BigDecimal price;
 private String description;
 private String category;
 private String imageURL;
 private BigDecimal discountPrice;
-//private DateTimeFormat createdAt;
-//private Timestamp updatedAt;
+private Timestamp createdAt;
+private Timestamp updatedAt;
 
-    public static List<Product> products = new ArrayList<>(List.of(
-            new Product(1L, "Organic Fertilizer", new BigDecimal("15.99"), "High-quality organic fertilizer for healthy plant growth.", "FERTILIZER", "images/fertilizer1.png", new BigDecimal("12.99")),
+    //public static List<Product> products = new ArrayList<>(List.of(
+            /*new Product(1L, "Organic Fertilizer", new BigDecimal("15.99"), "High-quality organic fertilizer for healthy plant growth.", "FERTILIZER", "images/fertilizer1.png", new BigDecimal("12.99")),
             new Product(2L, "Nitrogen Fertilizer", new BigDecimal("12.49"), "Nitrogen-rich fertilizer to promote leaf development.", "FERTILIZER", "images/fertilizer2.png", new BigDecimal("10.99")),
             new Product(3L, "Phosphate Fertilizer", new BigDecimal("18.75"), "Phosphate-based fertilizer for root growth.", "FERTILIZER", "images/fertilizer3.png", new BigDecimal("15.99")),
             new Product(4L, "Potash Fertilizer", new BigDecimal("19.99"), "Potash-rich fertilizer for better flowering.", "FERTILIZER", "images/fertilizer4.png", new BigDecimal("16.99")),
@@ -48,9 +50,9 @@ private BigDecimal discountPrice;
             new Product(18L, "Watering Can", new BigDecimal("9.99"), "Lightweight watering can with a large capacity.", "TOOLS_EQUIPMENT", "images/tools3.png", new BigDecimal("8.99")),
             new Product(19L, "Wheelbarrow", new BigDecimal("49.99"), "Heavy-duty wheelbarrow for easy transport.", "TOOLS_EQUIPMENT", "images/tools4.png", new BigDecimal("44.99")),
             new Product(20L, "Garden Hoe", new BigDecimal("10.99"), "Efficient garden hoe for soil preparation.", "TOOLS_EQUIPMENT", "images/tools5.png", new BigDecimal("9.49")),
-            new Product(21L, "Clay Pot", new BigDecimal("7.99"), "Classic clay pot for indoor and outdoor use.", "POTS_PLANTERS", "images/pots1.png", new BigDecimal("6.99"))
+            new Product(21L, "Clay Pot", new BigDecimal("7.99"), "Classic clay pot for indoor and outdoor use.", "POTS_PLANTERS", "images/pots1.png", new BigDecimal("6.99"))*/
 
-    ));
+    //));
 
     @Override
     public boolean equals(Object o) {
@@ -64,4 +66,6 @@ private BigDecimal discountPrice;
     public int hashCode() {
         return Objects.hashCode(name);
     }
+
+
 }

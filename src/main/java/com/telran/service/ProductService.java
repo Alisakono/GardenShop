@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.telran.repository.ProductRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -17,11 +18,31 @@ public class ProductService {
     }
 
     public List<Product> getAll() {
+        return repository.findAll();
+    }
 
-        return repository.getAll();
-    }
     public List<Product> getAllByName(String name) {
-        return repository.getAll().stream().filter(n->n.getName().startsWith(name)).toList();
+        return repository.findAll().stream().filter(n -> n.getName().startsWith(name)).toList();
     }
+
+    public void add(Product product) {
+        repository.save(product);
+    }
+
+    public boolean updateProduct(Product product) {
+        Optional<Product> byId = repository.findById(product.getId());
+        if (byId.isPresent()) {
+            repository.save(product);
+            return true;
+        } else {
+            repository.save(product);
+        }
+        return false;
+    }
+
+    public void remove(Product product) {
+repository.deleteById(product.getId());
+    }
+
 
 }
