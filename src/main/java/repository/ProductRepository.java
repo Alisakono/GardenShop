@@ -7,7 +7,7 @@ import java.util.List;
 
 @Repository
 public class ProductRepository {
-    public List<Product> findAll() {
+    public List<Product> getAll() {
         return Product.products;
     }
 }
