@@ -1,8 +1,5 @@
-package entity;
+package com.telran.entity;
 
-import org.springframework.core.GenericTypeResolver;
-
-import javax.annotation.processing.Generated;
 import java.sql.Timestamp;
 
 public class Order {
