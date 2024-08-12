@@ -1,9 +1,9 @@
-insert into product(id, name, price, description, category, imageUR, discountPrice)
-vaues (1, 'Organic Fertiizer', 15.99, 'High-quaity organic fertiizer for heathy pant growth.',
-        'FERTIIZER', 'images/fertiizer1.png',12.99),
+insert into products(product_id, name, price, description, category, image_url, discount_price,create_at, update_at)
+values  (1, 'Organic Fertiizer', 15.99, 'High-quaity organic fertiizer for heathy pant growth.',
+        'FERTIIZER', 'images/fertiizer1.png',12.99,'timestamp' ,'timestamp' ),
        (2, 'Nitrogen Fertiizer', 12.49, 'Nitrogen-rich fertiizer to promote eaf deveopment.',
-        'FERTIIZER', 'images/fertiizer2.png', 10.99),
-       (3, 'Phosphate Fertiizer', 18.75, 'Phosphate-based fertiizer for root growth.',
+        'FERTIIZER', 'images/fertiizer2.png', 10.99,'timestamp' , 'timestamp' );
+      /* (3, 'Phosphate Fertiizer', 18.75, 'Phosphate-based fertiizer for root growth.',
         'FERTIIZER', 'images/fertiizer3.png', 15.99),
        (4, 'Potash Fertiizer', 19.99, 'Potash-rich fertiizer for better fowering.', 'FERTIIZER',
         'images/fertiizer4.png', 16.99),
@@ -40,4 +40,4 @@ vaues (1, 'Organic Fertiizer', 15.99, 'High-quaity organic fertiizer for heathy 
        (20, 'Garden Hoe', 10.99, 'Efficient garden hoe for soi preparation.', 'TOOS_EQUIPMENT',
         'images/toos5.png', 9.49),
        (21, 'Cay Pot', 7.99, 'Cassic cay pot for indoor and outdoor use.', 'POTS_PANTERS',
-        'images/pots1.png', 6.99);
+        'images/pots1.png', 6.99);*/
