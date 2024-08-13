@@ -1,7 +1,13 @@
-insert into products(product_id, name, price, description, category, image_url, discount_price,create_at, update_at)
-values  (1, 'Organic Fertiizer', 15.99, 'High-quaity organic fertiizer for heathy pant growth.',
+insert into categories(name)
+values ('Fertilizer'),
+       ('Protective products and septic tanks'),
+       ('Planting material'),
+       ('Tools and equipment'),
+       ('Pots and planters');
+insert into products(name, price, description, category, image_url, discount_price,create_at, update_at)
+values  ('Organic Fertiizer', 15.99, 'High-quaity organic fertiizer for heathy pant growth.',
         'FERTIIZER', 'images/fertiizer1.png',12.99,'timestamp' ,'timestamp' ),
-       (2, 'Nitrogen Fertiizer', 12.49, 'Nitrogen-rich fertiizer to promote eaf deveopment.',
+       ('Nitrogen Fertiizer', 12.49, 'Nitrogen-rich fertiizer to promote eaf deveopment.',
         'FERTIIZER', 'images/fertiizer2.png', 10.99,'timestamp' , 'timestamp' );
       /* (3, 'Phosphate Fertiizer', 18.75, 'Phosphate-based fertiizer for root growth.',
         'FERTIIZER', 'images/fertiizer3.png', 15.99),
@@ -41,3 +47,8 @@ values  (1, 'Organic Fertiizer', 15.99, 'High-quaity organic fertiizer for heath
         'images/toos5.png', 9.49),
        (21, 'Cay Pot', 7.99, 'Cassic cay pot for indoor and outdoor use.', 'POTS_PANTERS',
         'images/pots1.png', 6.99);*/
+insert into carts(user)
+values ('user1'),
+        ('user2');
+
+insert into order()

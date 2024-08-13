@@ -1,7 +1,6 @@
 package com.telran.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,15 +18,21 @@ import java.util.Objects;
 
 public class Product {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-private String name;
-private BigDecimal price;
-private String description;
-private String category;
-private String imageURL;
-private BigDecimal discountPrice;
-private Timestamp createdAt;
-private Timestamp updatedAt;
+    private String name;
+    private BigDecimal price;
+    private String description;
+    private String imageURL;
+    private BigDecimal discountPrice;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Category category;
+
+
+
 
     //public static List<Product> products = new ArrayList<>(List.of(
             /*new Product(1L, "Organic Fertilizer", new BigDecimal("15.99"), "High-quality organic fertilizer for healthy plant growth.", "FERTILIZER", "images/fertilizer1.png", new BigDecimal("12.99")),

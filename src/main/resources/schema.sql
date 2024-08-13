@@ -21,9 +21,9 @@ USE `garden` ;
 -- Table `garden`.`carts`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `garden`.`carts` (
-  `carts_id` INT NOT NULL,
+  `cart_id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
-  PRIMARY KEY (`carts_id`));
+  PRIMARY KEY (`cart_id`));
 
 
 -- -----------------------------------------------------
@@ -38,12 +38,12 @@ CREATE TABLE IF NOT EXISTS `garden`.`users` (
   `role` ENUM('admin', 'manager', 'user') NOT NULL,
   `favorites_favorite_id` INT NOT NULL,
   `orders_order_id` INT NOT NULL,
-  `carts_carts_id` INT NOT NULL,
-  PRIMARY KEY (`user_id`, `carts_carts_id`),
-  INDEX `fk_users_carts_idx` (`carts_carts_id` ASC) VISIBLE,
+  `carts_cart_id` INT NOT NULL,
+  PRIMARY KEY (`user_id`),
+  INDEX `fk_users_carts_id` (`carts_cart_id` ASC) VISIBLE,
   CONSTRAINT `fk_users_carts`
-    FOREIGN KEY (`carts_carts_id`)
-    REFERENCES `garden`.`carts` (`carts_id`)
+    FOREIGN KEY (`carts_cart_id`)
+    REFERENCES `garden`.`carts` (`cart_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
@@ -54,8 +54,8 @@ CREATE TABLE IF NOT EXISTS `garden`.`users` (
 CREATE TABLE IF NOT EXISTS `garden`.`categories` (
   `category_id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`category_id`))
-ENGINE = InnoDB;
+  PRIMARY KEY (`category_id`));
+
 
 
 -- -----------------------------------------------------
@@ -66,27 +66,37 @@ CREATE TABLE IF NOT EXISTS `garden`.`products` (
   `name` VARCHAR(45) NOT NULL,
   `description` TEXT NOT NULL,
   `price` DECIMAL NOT NULL,
-  `category_id` INT NOT NULL,
-  `iamge_url` VARCHAR(45) NOT NULL,
+  `category` INT NOT NULL,
+  `image_url` VARCHAR(45) NOT NULL,
   `discount_price` DECIMAL NOT NULL,
   `creates_at` TIMESTAMP NOT NULL,
   `updated_at` TIMESTAMP NOT NULL,
-  `categories_category_id` INT NOT NULL,
-  `carts_carts_id` INT NOT NULL,
-  PRIMARY KEY (`product_id`, `categories_category_id`),
+  PRIMARY KEY (`product_id`),
   INDEX `fk_products_categories1_idx` (`categories_category_id` ASC) VISIBLE,
-  INDEX `fk_products_carts1_idx` (`carts_carts_id` ASC) VISIBLE,
-  CONSTRAINT `fk_products_categories1`
-    FOREIGN KEY (`categories_category_id`)
+  INDEX `fk_products_carts1_idx` (`carts_cart_id` ASC) VISIBLE,
+    INDEX `fk_cart_items_products1_idx` (`cart_items_id` ASC) VISIBLE,
+    INDEX `fk_order_items_products1_idx` (`orders_order_id` ASC) VISIBLE,
+    CONSTRAINT `fk_products_category1`
+    FOREIGN KEY (`category_id`)
     REFERENCES `garden`.`categories` (`category_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_products_carts1`
-    FOREIGN KEY (`carts_carts_id`)
-    REFERENCES `garden`.`carts` (`carts_id`)
+    FOREIGN KEY (`cart_id`)
+    REFERENCES `garden`.`carts` (`cart_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION,
+    CONSTRAINT `fk_cart_items_products1`
+    FOREIGN KEY (`cart_items_id`)
+    REFERENCES `garden`.`cart_items` (`cart_items_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    CONSTRAINT `fk_order_items_products1_idx`
+    FOREIGN KEY  (`order_items_id`)
+    REFERENCES  `garden`.`order_items` (`order_items_id`)
+       ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
 
 
 -- -----------------------------------------------------
@@ -97,22 +107,22 @@ CREATE TABLE IF NOT EXISTS `garden`.`cart_items` (
   `cart_id` INT NOT NULL,
   `product_id` INT NOT NULL,
   `quantity` INT NULL,
-  `carts_carts_id` INT NOT NULL,
+  `carts_cart_id` INT NOT NULL,
   `products_product_id` INT NOT NULL,
-  PRIMARY KEY (`cart_items_id`, `carts_carts_id`, `products_product_id`),
-  INDEX `fk_cart_items_carts1_idx` (`carts_carts_id` ASC) VISIBLE,
-  INDEX `fk_cart_items_products1_idx` (`products_product_id` ASC) VISIBLE,
+  PRIMARY KEY (`cart_items_id`),
+  INDEX `fk_cart_items_carts1_idx` (`cart_id` ASC) VISIBLE,
+  INDEX `fk_cart_items_products1_idx` (`product_id` ASC) VISIBLE,
   CONSTRAINT `fk_cart_items_carts1`
-    FOREIGN KEY (`carts_carts_id`)
-    REFERENCES `garden`.`carts` (`carts_id`)
+    FOREIGN KEY (`cart_id`)
+    REFERENCES `garden`.`carts` (`cart_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_cart_items_products1`
-    FOREIGN KEY (`products_product_id`)
+    FOREIGN KEY (`product_id`)
     REFERENCES `garden`.`products` (`product_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
+
 
 
 -- -----------------------------------------------------
@@ -129,15 +139,15 @@ CREATE TABLE IF NOT EXISTS `garden`.`orders` (
   `updated_at` TIMESTAMP NOT NULL,
   `order_items_order_item_id` INT NOT NULL,
   `users_user_id` INT NOT NULL,
-  `users_carts_carts_id` INT NOT NULL,
-  PRIMARY KEY (`order_id`, `users_user_id`, `users_carts_carts_id`),
-  INDEX `fk_orders_users1_idx` (`users_user_id` ASC, `users_carts_carts_id` ASC) VISIBLE,
+  `users_carts_cart_id` INT NOT NULL,
+  PRIMARY KEY (`order_id`, `users_user_id`, `users_carts_cart_id`),
+  INDEX `fk_orders_users1_idx` (`users_user_id` ASC, `users_carts_cart_id` ASC) VISIBLE,
   CONSTRAINT `fk_orders_users1`
-    FOREIGN KEY (`users_user_id` , `users_carts_carts_id`)
-    REFERENCES `garden`.`users` (`user_id` , `carts_carts_id`)
+    FOREIGN KEY (`users_user_id` , `users_carts_cart_id`)
+    REFERENCES `garden`.`users` (`user_id` , `carts_cart_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
+
 
 
 -- -----------------------------------------------------
@@ -148,23 +158,23 @@ CREATE TABLE IF NOT EXISTS `garden`.`favorites` (
   `user_id` INT NOT NULL,
   `product_id` INT NOT NULL,
   `users_user_id` INT NOT NULL,
-  `users_carts_carts_id` INT NOT NULL,
+  `users_carts_cart_id` INT NOT NULL,
   `products_product_id` INT NOT NULL,
   `products_categories_category_id` INT NOT NULL,
-  PRIMARY KEY (`favorite_id`, `users_user_id`, `users_carts_carts_id`, `products_product_id`, `products_categories_category_id`),
-  INDEX `fk_favorites_users1_idx` (`users_user_id` ASC, `users_carts_carts_id` ASC) VISIBLE,
+  PRIMARY KEY (`favorite_id`, `users_user_id`, `users_carts_cart_id`, `products_product_id`, `products_categories_category_id`),
+  INDEX `fk_favorites_users1_idx` (`users_user_id` ASC, `users_carts_cart_id` ASC) VISIBLE,
   INDEX `fk_favorites_products1_idx` (`products_product_id` ASC, `products_categories_category_id` ASC) VISIBLE,
   CONSTRAINT `fk_favorites_users1`
-    FOREIGN KEY (`users_user_id` , `users_carts_carts_id`)
-    REFERENCES `garden`.`users` (`user_id` , `carts_carts_id`)
+    FOREIGN KEY (`users_user_id` , `users_carts_cart_id`)
+    REFERENCES `garden`.`users` (`user_id` , `carts_cart_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_favorites_products1`
     FOREIGN KEY (`products_product_id` , `products_categories_category_id`)
     REFERENCES `garden`.`products` (`product_id` , `categories_category_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
+
 
 
 -- -----------------------------------------------------
@@ -178,22 +188,22 @@ CREATE TABLE IF NOT EXISTS `garden`.`order_items` (
   `price_at_purchase` DECIMAL NOT NULL,
   `orders_order_id` INT NOT NULL,
   `orders_users_user_id` INT NOT NULL,
-  `orders_users_carts_carts_id` INT NOT NULL,
+  `orders_users_carts_cart_id` INT NOT NULL,
   `products_product_id` INT NOT NULL,
   PRIMARY KEY (`order_items_id`),
-  INDEX `fk_order_items_orders1_idx` (`orders_order_id` ASC, `orders_users_user_id` ASC, `orders_users_carts_carts_id` ASC) VISIBLE,
+  INDEX `fk_order_items_orders1_idx` (`orders_order_id` ASC, `orders_users_user_id` ASC, `orders_users_carts_cart_id` ASC) VISIBLE,
   INDEX `fk_order_items_products1_idx` (`products_product_id` ASC) VISIBLE,
   CONSTRAINT `fk_order_items_orders1`
-    FOREIGN KEY (`orders_order_id` , `orders_users_user_id` , `orders_users_carts_carts_id`)
-    REFERENCES `garden`.`orders` (`order_id` , `users_user_id` , `users_carts_carts_id`)
+    FOREIGN KEY (`orders_order_id` , `orders_users_user_id` , `orders_users_carts_cart_id`)
+    REFERENCES `garden`.`orders` (`order_id` , `users_user_id` , `users_carts_cart_id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_order_items_products1`
     FOREIGN KEY (`products_product_id`)
     REFERENCES `garden`.`products` (`product_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
+
 
 
 -- -----------------------------------------------------
@@ -203,9 +213,9 @@ CREATE TABLE IF NOT EXISTS `garden`.`products_has_orders` (
   `products_product_id` INT NOT NULL,
   `orders_order_id` INT NOT NULL,
   `orders_users_user_id` INT NOT NULL,
-  `orders_users_carts_carts_id` INT NOT NULL,
-  PRIMARY KEY (`products_product_id`, `orders_order_id`, `orders_users_user_id`, `orders_users_carts_carts_id`),
-  INDEX `fk_products_has_orders_orders1_idx` (`orders_order_id` ASC, `orders_users_user_id` ASC, `orders_users_carts_carts_id` ASC) VISIBLE,
+  `orders_users_carts_cart_id` INT NOT NULL,
+  PRIMARY KEY (`products_product_id`, `orders_order_id`, `orders_users_user_id`, `orders_users_carts_cart_id`),
+  INDEX `fk_products_has_orders_orders1_idx` (`orders_order_id` ASC, `orders_users_user_id` ASC, `orders_users_carts_cart_id` ASC) VISIBLE,
   INDEX `fk_products_has_orders_products1_idx` (`products_product_id` ASC) VISIBLE,
   CONSTRAINT `fk_products_has_orders_products1`
     FOREIGN KEY (`products_product_id`)
@@ -213,11 +223,11 @@ CREATE TABLE IF NOT EXISTS `garden`.`products_has_orders` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_products_has_orders_orders1`
-    FOREIGN KEY (`orders_order_id` , `orders_users_user_id` , `orders_users_carts_carts_id`)
-    REFERENCES `garden`.`orders` (`order_id` , `users_user_id` , `users_carts_carts_id`)
+    FOREIGN KEY (`orders_order_id` , `orders_users_user_id` , `orders_users_carts_cart_id`)
+    REFERENCES `garden`.`orders` (`order_id` , `users_user_id` , `users_carts_cart_id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
