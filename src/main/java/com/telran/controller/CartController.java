@@ -32,13 +32,11 @@ public class CartController {
         service.add(cart);
         return new ResponseEntity<>(cart, HttpStatus.CREATED);
     }
-
     @PutMapping
     public ResponseEntity<Cart> updateCart(@RequestBody Cart cart) {
         boolean isUpdated = service.updateCart(cart);
         return new ResponseEntity<>(cart, isUpdated ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Long id) {
         service.removeById(id);

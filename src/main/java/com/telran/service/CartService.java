@@ -24,7 +24,6 @@ public class CartService {
     public void add(Cart cart) {
         repository.save(cart);
     }
-
     public boolean updateCart(Cart cart) {
         Optional<Cart> optional = repository.findById(cart.getId());
         if (optional.isPresent()) {
