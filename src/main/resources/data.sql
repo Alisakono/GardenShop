@@ -47,8 +47,4 @@ values  ('Organic Fertiizer', 15.99, 'High-quaity organic fertiizer for heathy p
         'images/toos5.png', 9.49),
        (21, 'Cay Pot', 7.99, 'Cassic cay pot for indoor and outdoor use.', 'POTS_PANTERS',
         'images/pots1.png', 6.99);*/
-insert into carts(user)
-values ('user1'),
-        ('user2');
 
-insert into order()
