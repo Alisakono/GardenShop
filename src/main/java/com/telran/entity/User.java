@@ -19,7 +19,7 @@ public class User {
     private String email;
     private String phoneNumber;
     private String passwordHash;
-    private String role;
+    private Enum role;
 
    @OneToOne
     private Cart cart;
