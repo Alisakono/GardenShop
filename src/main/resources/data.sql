@@ -1,9 +1,9 @@
-insert into categories(category_id,name)
-values (1,'Fertilizer'),
-       (2,'Protective products and septic tanks'),
-       (3,'Planting material'),
-       (4,'Tools and equipment'),
-       (5,'Pots and planters');
+insert into categories(name)
+values ('Fertilizer'),
+       ('Protective products and septic tanks'),
+       ('Planting material'),
+       ('Tools and equipment'),
+       ('Pots and planters');
 insert into products(name, price, description, category, image_url, discount_price,create_at, update_at)
 values  ('Organic Fertiizer', 15.99, 'High-quaity organic fertiizer for heathy pant growth.',
         1, 'images/fertiizer1.png',12.99,NOW() ,NOW() ),
@@ -54,3 +54,4 @@ values  ('Alice Smith', 'alice@example.com',1234567890,'hash_password1','ADMIN')
         ('Diana King', 'diana@example.com', 4567890123,'hash_password4', 'USER'),
         ('Ethan Brown', 'ethan@example.com', 5678901234,'hash_password5', 'MANAGER');
 
+insert into order()
