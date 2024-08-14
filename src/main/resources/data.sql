@@ -41,3 +41,10 @@ values  (1, 'Organic Fertiizer', 15.99, 'High-quaity organic fertiizer for heath
         'images/toos5.png', 9.49),
        (21, 'Cay Pot', 7.99, 'Cassic cay pot for indoor and outdoor use.', 'POTS_PANTERS',
         'images/pots1.png', 6.99);*/
+
+        insert into carts(cart_id,name)
+        values (1,'cart');
+
+        insert into cartItems(cart_item_id,cart_id,product_id,quantity)
+        values (1,1,1,0);
+
