@@ -6,18 +6,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Objects;
-
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity
 
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String user;
 
     @Override
@@ -32,4 +26,5 @@ public class Cart {
     public int hashCode() {
         return Objects.hash(user);
     }
+
 }

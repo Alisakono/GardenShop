@@ -1,7 +1,7 @@
-insert into products(product_id, name, price, description, category, image_url, discount_price,create_at, update_at)
-values  (1, 'Organic Fertiizer', 15.99, 'High-quaity organic fertiizer for heathy pant growth.',
+insert into products(name, price, description, category, image_url, discount_price,create_at, update_at)
+values  ('Organic Fertiizer', 15.99, 'High-quaity organic fertiizer for heathy pant growth.',
         'FERTIIZER', 'images/fertiizer1.png',12.99,'timestamp' ,'timestamp' ),
-       (2, 'Nitrogen Fertiizer', 12.49, 'Nitrogen-rich fertiizer to promote eaf deveopment.',
+       ('Nitrogen Fertiizer', 12.49, 'Nitrogen-rich fertiizer to promote eaf deveopment.',
         'FERTIIZER', 'images/fertiizer2.png', 10.99,'timestamp' , 'timestamp' );
       /* (3, 'Phosphate Fertiizer', 18.75, 'Phosphate-based fertiizer for root growth.',
         'FERTIIZER', 'images/fertiizer3.png', 15.99),
