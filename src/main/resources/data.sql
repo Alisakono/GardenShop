@@ -43,7 +43,7 @@ values  (1, 'Organic Fertiizer', 15.99, 'High-quaity organic fertiizer for heath
         'images/pots1.png', 6.99);*/
 
         insert into carts(cart_id,name)
-        values (1,'cart');
+        values (1,'cart'),(2,'carts');
 
         insert into cartItems(cart_item_id,cart_id,product_id,quantity)
         values (1,1,1,0);
