@@ -54,4 +54,3 @@ values  ('Alice Smith', 'alice@example.com',1234567890,'hash_password1','ADMIN')
         ('Diana King', 'diana@example.com', 4567890123,'hash_password4', 'USER'),
         ('Ethan Brown', 'ethan@example.com', 5678901234,'hash_password5', 'MANAGER');
 
-insert into order()

@@ -1,5 +1,6 @@
 package com.telran.controller;
 
+
 import com.telran.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/garden")
 public class ProductController {
 
     private final ProductService service;
@@ -26,10 +27,10 @@ public class ProductController {
         return "Hello World";
     }
 
-    @GetMapping("/all")
-    public List<Product> getAll() {
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getAll() {
         List<Product> all = service.getAll();
-        return new ResponseEntity<>(all, HttpStatus.OK).getBody();
+        return new ResponseEntity<>(all, HttpStatus.OK);
     }
 
     @GetMapping("/searchByName")

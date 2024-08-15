@@ -21,6 +21,6 @@ public class User {
     private String passwordHash;
     private Enum role;
 
-   @OneToOne
-    private Cart cart;
+  /* @OneToOne
+    private Cart cart;*/
 }

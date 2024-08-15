@@ -3,8 +3,6 @@ package com.telran.service;
 import com.telran.entity.Cart;
 import com.telran.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,27 +17,25 @@ public class CartService {
         this.repository = repository;
     }
 
-    public Optional<Cart> getCartByUser(String user) {
-        return repository.findAll().stream()
-                .filter(cart -> cart.getUser().equals(user))
-                .findFirst();
+    public void getCartByUser(String user) {
+        repository.findById(user);
     }
 
     public void add(Cart cart) {
         repository.save(cart);
     }
-
-    public boolean updateCart(Cart cart) {
-        Optional<Cart> optional = repository.findById(cart.getUser());
+    public boolean updateCart(String user, Cart cart) {
+        Optional<Cart> optional = repository.findById(user);
         if (optional.isPresent()) {
-            repository.save(cart);
+            Cart existingCart = optional.get();
+           /* existingCart.setItems(updateCart.getItems);
+            existingCart.setPrice(updatedCart.getTotalPrice());*/
+            repository.save(existingCart);
             return true;
         } else {
             return false;
         }
     }
-
-
     public void deleteByUser(String user) {
         repository.deleteById(user);
     }

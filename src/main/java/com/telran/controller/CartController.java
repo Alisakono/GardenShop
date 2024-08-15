@@ -35,7 +35,7 @@ public class CartController {
 
     @PutMapping
     public ResponseEntity<Cart> updateCart(@RequestBody Cart cart) {
-        boolean isUpdated = service.updateCart(cart);
+        boolean isUpdated = service.updateCart(cart.getUser(),cart);
         return new ResponseEntity<>(cart, isUpdated ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 

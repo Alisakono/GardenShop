@@ -1,13 +1,10 @@
 package com.telran.entity;
 
 import jakarta.persistence.*;
-import jakarta.transaction.Status;
-import jdk.jshell.Snippet;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.logging.log4j.util.Timer;
 
 import java.sql.Timestamp;
 import java.util.List;
