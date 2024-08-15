@@ -1,14 +1,15 @@
-insert into categories(name)
+insert into categories( name)
 values ('Fertilizer'),
        ('Protective products and septic tanks'),
        ('Planting material'),
        ('Tools and equipment'),
        ('Pots and planters');
-insert into products(name, price, description, category, image_url, discount_price,create_at, update_at)
-values  ('Organic Fertiizer', 15.99, 'High-quaity organic fertiizer for heathy pant growth.',
-        1, 'images/fertiizer1.png',12.99,NOW() ,NOW() ),
-       ('Nitrogen Fertiizer', 12.49, 'Nitrogen-rich fertiizer to promote eaf deveopment.',
-        1, 'images/fertiizer2.png', 10.99,NOW() , NOW() );
+
+insert into products( name, price, description, image_url, discount_price,create_at, update_at,category)
+values  ('Organic Fertilizer', 15.99, 'High-quaity organic fertilizer for heathy pant growth.',
+         'images/fertiizer1.png',12.99,NOW() ,NOW(), 1),
+       ( 'Nitrogen Fertilizer', 12.49, 'Nitrogen-rich fertilizer to promote eaf deveopment.',
+         'images/fertilizer2.png', 10.99,NOW() , NOW(), 1);
       /* (3, 'Phosphate Fertiizer', 18.75, 'Phosphate-based fertiizer for root growth.',
         'FERTIIZER', 'images/fertiizer3.png', 15.99),
        (4, 'Potash Fertiizer', 19.99, 'Potash-rich fertiizer for better fowering.', 'FERTIIZER',

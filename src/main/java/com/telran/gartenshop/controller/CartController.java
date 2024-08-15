@@ -1,8 +1,8 @@
-package com.telran.controller;
+package com.telran.gartenshop.controller;
 
 
-import com.telran.entity.Cart;
-import com.telran.service.CartService;
+import com.telran.gartenshop.entity.Cart;
+import com.telran.gartenshop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +22,8 @@ public class CartController {
 
     @GetMapping("/user")
     public ResponseEntity<Cart> getCartByUser(@RequestParam String user) {
-
-       service.getCartByUser(user);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Cart cart = service.getCartByUser(user);
+        return new ResponseEntity<>(cart, HttpStatus.OK);
     }
 
     @PostMapping
@@ -35,14 +34,14 @@ public class CartController {
 
     @PutMapping
     public ResponseEntity<Cart> updateCart(@RequestBody Cart cart) {
-        boolean isUpdated = service.updateCart(cart.getUser(),cart);
+        boolean isUpdated = service.updateCart(cart.getUser(), cart);
         return new ResponseEntity<>(cart, isUpdated ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{user}")
     public ResponseEntity<Cart> deleteByUser(@PathVariable String user) {
         service.deleteByUser(user);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
 

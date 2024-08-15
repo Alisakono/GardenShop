@@ -1,8 +1,9 @@
-package com.telran.service;
+package com.telran.gartenshop.service;
 
-import com.telran.entity.Cart;
-import com.telran.repository.CartRepository;
+import com.telran.gartenshop.entity.Cart;
+import com.telran.gartenshop.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,19 +18,21 @@ public class CartService {
         this.repository = repository;
     }
 
-    public void getCartByUser(String user) {
-        repository.findById(user);
+    public Cart getCartByUser(String user) {
+        Optional<Cart> cart = repository.findById(user);
+        return new Cart();
     }
 
     public void add(Cart cart) {
         repository.save(cart);
+
     }
     public boolean updateCart(String user, Cart cart) {
         Optional<Cart> optional = repository.findById(user);
         if (optional.isPresent()) {
             Cart existingCart = optional.get();
            /* existingCart.setItems(updateCart.getItems);
-            existingCart.setPrice(updatedCart.getTotalPrice());*/
+            existingCart.setTotalPrice(updatedCart.getTotalPrice());*/
             repository.save(existingCart);
             return true;
         } else {

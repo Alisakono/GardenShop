@@ -1,7 +1,7 @@
-package com.telran.controller;
+package com.telran.gartenshop.controller;
 
-import com.telran.entity.Order;
-import com.telran.service.OrderService;
+import com.telran.gartenshop.entity.OrderInfo;
+import com.telran.gartenshop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,28 +20,28 @@ public class OrderController {
         this.service = service;
     }
     @GetMapping
-    public List<Order> getAllOrders() {
+    public List<OrderInfo> getAllOrders() {
         return service.getAllOrders();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
-        Optional<Order> order = service.getOrderById(id);
+    public ResponseEntity<OrderInfo> getOrderById(@PathVariable Long id) {
+        Optional<OrderInfo> order = service.getOrderById(id);
         return order.map(value-> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        Order createdOrder = service.createOrder(order);
-        return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
+    public ResponseEntity<OrderInfo> createOrder(@RequestBody OrderInfo orderInfo) {
+        OrderInfo createdOrderInfo = service.createOrder(orderInfo);
+        return new ResponseEntity<>(createdOrderInfo, HttpStatus.CREATED);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
+    public ResponseEntity<OrderInfo> updateOrder(@PathVariable Long id, @RequestBody OrderInfo orderInfo) {
         if (!service.getOrderById(id).isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        order.setId(id);
-        Order updatedOrder = service.updateOrder(order);
-        return new ResponseEntity<>(updatedOrder, HttpStatus.OK);
+        orderInfo.setId(id);
+        OrderInfo updatedOrderInfo = service.updateOrder(orderInfo);
+        return new ResponseEntity<>(updatedOrderInfo, HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {

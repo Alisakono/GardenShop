@@ -31,7 +31,8 @@ CREATE TABLE IF NOT EXISTS `garden`.`carts`
     KEY
 (
     `cart_id`
-)
+),
+    CONSTRAINT fk_cart_user FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
     );
 
 -- -----------------------------------------------------
@@ -53,21 +54,13 @@ CREATE TABLE IF NOT EXISTS users (
 DROP TABLE IF EXISTS `garden`.`categories`;
 
 CREATE TABLE IF NOT EXISTS `garden`.`categories`
-(
-    `category_id`
-    INT
-    NOT
-    NULL
-    AUTO_INCREMENT,
-    `name`
-    VARCHAR
-(
-    45
-) NOT NULL,
+(    `category_id`INT NOT NULL AUTO_INCREMENT,
+     `name`VARCHAR(45) NOT NULL,
     PRIMARY KEY
 (
     `category_id`
 )
+
     );
 
 -- -----------------------------------------------------
@@ -108,6 +101,7 @@ CREATE TABLE IF NOT EXISTS `garden`.`products`
 (
     `product_id`
 )
+
     );
 
 -- -----------------------------------------------------
@@ -134,9 +128,9 @@ CREATE TABLE IF NOT EXISTS `garden`.`cart_items`
     NULL,
     PRIMARY
     KEY
-(
-    `cart_items_id`
-)
+(`cart_items_id`),
+    CONSTRAINT fk_cart_item_cart FOREIGN KEY (`cart_id`) REFERENCES `carts` (`cart_id`),
+    CONSTRAINT fk_cart_item_product FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`)
     );
 
 -- -----------------------------------------------------
@@ -182,7 +176,8 @@ CREATE TABLE IF NOT EXISTS `garden`.`orders`
     PRIMARY KEY
 (
     `order_id`
-)
+),
+    CONSTRAINT fk_order_user FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
     );
 
 -- -----------------------------------------------------
@@ -208,7 +203,9 @@ CREATE TABLE IF NOT EXISTS `garden`.`favorites`
     KEY
 (
     `favorite_id`
-)
+),
+    CONSTRAINT fk_favorite_user FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+    CONSTRAINT fk_favorite_product FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`)
     );
 
 -- -----------------------------------------------------
@@ -242,7 +239,9 @@ CREATE TABLE IF NOT EXISTS `garden`.`order_items`
     PRIMARY KEY
 (
     `order_items_id`
-)
+),
+    CONSTRAINT fk_order_item_order FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
+    CONSTRAINT fk_order_item_product FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`)
     );
 
 SET

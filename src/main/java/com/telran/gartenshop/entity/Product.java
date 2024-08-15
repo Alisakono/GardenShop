@@ -1,4 +1,4 @@
-package com.telran.entity;
+package com.telran.gartenshop.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,11 +15,11 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-
+//@Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String name;
     private BigDecimal price;
     private String description;
@@ -27,11 +27,9 @@ public class Product {
     private BigDecimal discountPrice;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-
     @ManyToOne(fetch = FetchType.LAZY)
+   // @JoinColumn(name = "category_id")
     private Category category;
-
-
 
 
     //public static List<Product> products = new ArrayList<>(List.of(

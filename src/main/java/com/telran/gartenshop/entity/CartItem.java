@@ -1,4 +1,4 @@
-package com.telran.entity;
+package com.telran.gartenshop.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "cart_items")
+//@Table(name = "cart_items")
 public class CartItem {
 
     @Id
@@ -22,15 +22,15 @@ public class CartItem {
     @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;*/
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
+ /*   @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)*/
 //import jakarta.persistence.Column;
 //
 //private Product product;
 //
 //    @Column(nullable = false)
 //    private Integer quantity;
-    private Product product;
+   /* private Product product;
 
     @Column(nullable = false)
     private Integer quantity;
@@ -39,6 +39,6 @@ public class CartItem {
     public CartItem(Product product, Integer quantity) {
         this.product = product;
         this.quantity = quantity;
-    }
+    }*/
 
 }

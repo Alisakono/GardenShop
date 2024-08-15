@@ -1,4 +1,4 @@
-package com.telran.entity;
+package com.telran.gartenshop.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

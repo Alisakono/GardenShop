@@ -1,18 +1,19 @@
-package com.telran.controller;
+package com.telran.gartenshop.controller;
 
 
-import com.telran.entity.Product;
+import com.telran.gartenshop.entity.Product;
+import jakarta.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.telran.service.ProductService;
+import com.telran.gartenshop.service.ProductService;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/garden")
+@RequestMapping
 public class ProductController {
 
     private final ProductService service;
@@ -22,7 +23,7 @@ public class ProductController {
         this.service = service;
     }
 
-    @GetMapping
+    @GetMapping("/garden")
     public String helloMessage() {
         return "Hello World";
     }
@@ -30,6 +31,9 @@ public class ProductController {
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getAll() {
         List<Product> all = service.getAll();
+        if (all.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(all, HttpStatus.OK);
     }
 

@@ -1,7 +1,7 @@
-package com.telran.service;
+package com.telran.gartenshop.service;
 
-import com.telran.entity.Category;
-import com.telran.repository.CategoryRepository;
+import com.telran.gartenshop.entity.Category;
+import com.telran.gartenshop.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

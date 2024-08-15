@@ -1,12 +1,12 @@
-package com.telran.controller;
+package com.telran.gartenshop.controller;
 
-import com.telran.entity.CartItem;
-import com.telran.service.CartItemService;
+import com.telran.gartenshop.entity.CartItem;
+import com.telran.gartenshop.service.CartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/cartItems")
@@ -21,8 +21,8 @@ public class CartItemController {
 
     // Get all CartItems by Cart ID
     @GetMapping("/cart/{cartId}")
-    public ResponseEntity<List<CartItem>> getCartItemsByCartId(@PathVariable Long cartId) {
-        List<CartItem> cartItems = cartItemService.getCartItemsByCartId(cartId);
+    public ResponseEntity<Optional<CartItem>> getCartItemsByCartId(@PathVariable Long cartId) {
+        Optional<CartItem> cartItems = cartItemService.getCartItemsByCartId(cartId);
         if (cartItems.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

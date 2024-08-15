@@ -1,9 +1,9 @@
-package com.telran.service;
+package com.telran.gartenshop.service;
 
-import com.telran.entity.Product;
+import com.telran.gartenshop.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.telran.repository.ProductRepository;
+import com.telran.gartenshop.repository.ProductRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +29,7 @@ public class ProductService {
         repository.save(product);
     }
 
-    public boolean updateProduct(Product product) {
+    public boolean updateProduct( Product product) {
         Optional<Product> byId = repository.findById(product.getId());
         if (byId.isPresent()) {
             repository.save(product);

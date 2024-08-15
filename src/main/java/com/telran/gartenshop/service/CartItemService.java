@@ -1,11 +1,11 @@
-package com.telran.service;
+package com.telran.gartenshop.service;
 
-import com.telran.entity.CartItem;
-import com.telran.repository.CartItemRepository;
+import com.telran.gartenshop.entity.CartItem;
+import com.telran.gartenshop.repository.CartItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CartItemService {
@@ -18,8 +18,8 @@ public class CartItemService {
     }
 
 
-    public List<CartItem> getCartItemsByCartId(Long cartId) {
-        return repository.findAllByCartId(cartId);
+    public Optional<CartItem> getCartItemsByCartId(Long id) {
+        return repository.findById(id);
     }
 
 

@@ -1,4 +1,4 @@
-package com.telran.entity.enums;
+package com.telran.gartenshop.enums;
 
 public enum UserRole {
     ADMIN,USER,MANAGER

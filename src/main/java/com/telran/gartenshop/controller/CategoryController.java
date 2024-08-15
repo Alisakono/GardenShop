@@ -1,7 +1,7 @@
-package com.telran.controller;
+package com.telran.gartenshop.controller;
 
-import com.telran.entity.Category;
-import com.telran.service.CategoryService;
+import com.telran.gartenshop.entity.Category;
+import com.telran.gartenshop.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ public class CategoryController {
         this.service = service;
     }
 
-    @GetMapping("/categories")
+    @GetMapping
     public List<Category> getCategories() {
         return service.getAll();
     }
@@ -30,7 +30,7 @@ public class CategoryController {
     }
 
 
-    @PostMapping("/categories")
+    @PostMapping
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
         if (category.getName() == null || category.getName().isEmpty()) {
                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

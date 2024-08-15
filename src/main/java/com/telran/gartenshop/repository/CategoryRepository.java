@@ -1,6 +1,6 @@
-package com.telran.repository;
+package com.telran.gartenshop.repository;
 
-import com.telran.entity.Category;
+import com.telran.gartenshop.entity.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

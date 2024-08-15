@@ -1,4 +1,4 @@
-package com.telran.entity;
+package com.telran.gartenshop.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,21 +6,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
+import java.math.BigDecimal;
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User {
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String email;
-    private String phoneNumber;
-    private String passwordHash;
-    private Enum role;
+    @ManyToOne
+    private OrderInfo order;
+    @ManyToOne
+    private Product product;
+    private Integer quantity;
+    private BigDecimal priceAtPurchase;
 
-  /* @OneToOne
-    private Cart cart;*/
 }
