@@ -18,9 +18,9 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-   /* @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "cart_id", nullable = false)
-    private Cart cart;*/
+    private Cart cart;
 
  /*   @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)*/

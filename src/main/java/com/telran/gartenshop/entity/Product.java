@@ -1,5 +1,6 @@
 package com.telran.gartenshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,14 +20,16 @@ import java.util.Objects;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_id")
     private Long id;
     private String name;
     private BigDecimal price;
     private String description;
-    private String imageURL;
+    private String imageUrl;
     private BigDecimal discountPrice;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;

@@ -5,7 +5,7 @@ values ('Fertilizer'),
        ('Tools and equipment'),
        ('Pots and planters');
 
-insert into products( name, price, description, image_url, discount_price,create_at, update_at,category)
+insert into products( name, price, description, image_url, discount_price,created_at, updated_at,category_id)
 values  ('Organic Fertilizer', 15.99, 'High-quantity organic fertilizer for heath pant growth.',
          'images/fertilizer1.png',12.99,NOW() ,NOW(), 1),
        ( 'Nitrogen Fertilizer', 12.49, 'Nitrogen-rich fertilizer to promote eaf development.',

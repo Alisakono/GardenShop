@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `garden`.`products`
     10,
     2
 ) NOT NULL,
-    `category` INT NOT NULL,
+    `category_id` INT NOT NULL,
     `image_url` VARCHAR
 (
     45
@@ -95,8 +95,8 @@ CREATE TABLE IF NOT EXISTS `garden`.`products`
     10,
     2
 ) NOT NULL,
-    `create_at` TIMESTAMP NOT NULL,
-    `update_at` TIMESTAMP NOT NULL,
+    `created_at` TIMESTAMP NOT NULL,
+    `updated_at` TIMESTAMP NOT NULL,
     PRIMARY KEY
 (
     `product_id`
