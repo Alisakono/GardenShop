@@ -39,9 +39,9 @@ CREATE TABLE IF NOT EXISTS `garden`.`carts`
 -- Table `garden`.`users`
 DROP TABLE IF EXISTS `garden`.`users`;
 
-CREATE TABLE IF NOT EXISTS users (
-                                     user_id INT NOT NULL AUTO_INCREMENT,
-                                     name VARCHAR(45) NOT NULL,
+CREATE TABLE IF NOT EXISTS `users` (
+    user_id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(45) NOT NULL,
     email VARCHAR(45) NOT NULL,
     phone_number VARCHAR(45) NULL,
     password_hash VARCHAR(255) NOT NULL,

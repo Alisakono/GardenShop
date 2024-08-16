@@ -2,6 +2,7 @@ package com.telran.gartenshop.controller;
 
 
 import com.telran.gartenshop.entity.Cart;
+import com.telran.gartenshop.entity.User;
 import com.telran.gartenshop.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,8 +34,8 @@ public class CartController {
     }
 
     @PutMapping
-    public ResponseEntity<Cart> updateCart(@RequestBody Cart cart) {
-        boolean isUpdated = service.updateCart(cart.getUser(), cart);
+    public ResponseEntity<Cart> updateCart(@RequestBody Cart cart,@RequestParam User user) {
+        boolean isUpdated = service.updateCart(user.getName(), cart);
         return new ResponseEntity<>(cart, isUpdated ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 

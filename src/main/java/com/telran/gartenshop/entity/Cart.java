@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Objects;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,8 +17,8 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String user;
+    @OneToOne
+    private User user;
 
     @Override
     public boolean equals(Object o) {

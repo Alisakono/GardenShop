@@ -15,7 +15,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-//@Table(name = "products")
+@Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class Product {
     private Timestamp createdAt;
     private Timestamp updatedAt;
     @ManyToOne(fetch = FetchType.LAZY)
-   // @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id")
     private Category category;
 
 

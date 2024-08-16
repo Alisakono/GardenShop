@@ -1,6 +1,6 @@
 package com.telran.gartenshop.controller;
 
-import com.telran.gartenshop.entity.OrderInfo;
+import com.telran.gartenshop.entity.Order;
 import com.telran.gartenshop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,27 +20,27 @@ public class OrderController {
         this.service = service;
     }
     @GetMapping
-    public List<OrderInfo> getAllOrders() {
+    public List<Order> getAllOrders() {
         return service.getAllOrders();
     }
     @GetMapping("/{id}")
-    public ResponseEntity<OrderInfo> getOrderById(@PathVariable Long id) {
-        Optional<OrderInfo> order = service.getOrderById(id);
+    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
+        Optional<Order> order = service.getOrderById(id);
         return order.map(value-> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
     @PostMapping
-    public ResponseEntity<OrderInfo> createOrder(@RequestBody OrderInfo orderInfo) {
-        OrderInfo createdOrderInfo = service.createOrder(orderInfo);
+    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+        Order createdOrderInfo = service.createOrder(order);
         return new ResponseEntity<>(createdOrderInfo, HttpStatus.CREATED);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<OrderInfo> updateOrder(@PathVariable Long id, @RequestBody OrderInfo orderInfo) {
+    public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
         if (!service.getOrderById(id).isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        orderInfo.setId(id);
-        OrderInfo updatedOrderInfo = service.updateOrder(orderInfo);
+        order.setId(id);
+        Order updatedOrderInfo = service.updateOrder(order);
         return new ResponseEntity<>(updatedOrderInfo, HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
