@@ -1,3 +1,6 @@
+-- liquibase formatted sql
+-- changeset Eugen:002
+
 insert into categories( name)
 values ('Fertilizer'),
        ('Protective products and septic tanks'),
@@ -50,7 +53,7 @@ values  ('Organic Fertilizer', 15.99, 'High-quantity organic fertilizer for heat
         'images/pots1.png', 6.99);*/
 
 insert into users( name,email,phone_number,password_hash,role)
-values  ('Alice Smith', 'alice@example.com',1234567890,'hash_password1','ADMIN'),
+values  ('Alise Smith', 'alise@example.com',1234567890,'hash_password1','ADMIN'),
         ('Bob Johnson', 'bob@example.com', 2345678901,'hash_password2', 'MANAGER'),
         ('Charlie Davis', 'charlie@example.com', 3456789012,'hash_password3', 'USER'),
         ('Diana King', 'diana@example.com', 4567890123,'hash_password4', 'USER'),
