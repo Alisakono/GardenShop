@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/garden")
 public class UserController {
     private  final UserService service;
 
@@ -19,7 +19,7 @@ public class UserController {
     public UserController(UserService service){
         this.service = service;
     }
-    @GetMapping
+    @GetMapping("/users")
     public ResponseEntity<List<UserDto>> getAll() {
         List<UserDto> users = service.getAll();
         if (users.isEmpty()) {

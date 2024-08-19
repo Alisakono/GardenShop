@@ -31,7 +31,7 @@ public class UserDto {
     @Size(max = 45, message = "{validation.user.phoneNumber}")
     private String phoneNumber;
 
-    private Role role;
+    private Enum role;
    private Cart cart;
    private Order order;
    private Favorite favorite;

@@ -1,30 +1,18 @@
 package com.telran.gardenshop.controller;
 
-import com.telran.gardenshop.dto.ProductDto;
-import com.telran.gardenshop.entity.Category;
+
 import com.telran.gardenshop.entity.Product;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.telran.gardenshop.service.ProductService;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/products")
-@Validated
-@Slf4j
-@Tag(name = "Product Controller", description = "Actions with product")
+@RequestMapping
 public class ProductController {
 
     private final ProductService service;
@@ -34,44 +22,51 @@ public class ProductController {
         this.service = service;
     }
 
-    @GetMapping
-    @Operation(summary = "Retrieve all product")
-    public List<ProductDto> getAll() {
-       return service.getAll();
-    }
-    @GetMapping("/withSort")
-    public List<ProductDto> getAll(@SortDefault(sort = "name", direction = Sort.Direction.DESC) Sort sort){
-        return service.getAllSorted(sort);
+
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getAll() {
+        List<Product> all = service.getAll();
+        if (all.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(all, HttpStatus.OK);
     }
 
-    @GetMapping("/pages")
-    public Page<ProductDto> getAll(@PageableDefault(size = 10)
-                                   @SortDefault.SortDefaults({@SortDefault(sort = "name")})
-                                   Pageable pageable){
-        return service.getAllByPages(pageable);
-    }
-    @GetMapping("/{category}")
-    public List<Product> getProductsByCategory(@PathVariable Category category){
-        return service.getProductsByCategory(category);
+    @GetMapping("/searchByName")
+    public List<Product> getAllByName(@RequestParam String name) {
+
+        return service.getAllByName(name);
     }
 
     @PostMapping
-    public ResponseEntity<ProductDto> addProduct(@RequestBody @Valid ProductDto product) {
-        ProductDto createdProduct = service.add(product);
+    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
         if (product.getName() == null || product.getName().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
+
+        if (product.getPrice() == null || product.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        service.add(product);
+        return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<ProductDto> updateProduct(@RequestBody @Valid ProductDto product) {
-        ProductDto updatedProduct = service.updateProduct(product);
-       return new ResponseEntity<>(product, updatedProduct !=null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
+        boolean isUpdated = service.updateProduct(product);
+        if (isUpdated) {
+            return new ResponseEntity<>(isUpdated ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteById(@RequestParam Long id) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Product> deleteProduct(@RequestBody Product product) {
+        if (product.getName() == null || product.getName().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        service.remove(product);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 }
