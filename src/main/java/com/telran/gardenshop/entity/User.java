@@ -13,11 +13,10 @@ import lombok.Setter;
 @Entity
 @Table(name = "users")
 public class User {
+    private String name;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Long id;
-    private String name;
+    @Column(name = "email")
     private String email;
     private String phoneNumber;
     private String passwordHash;

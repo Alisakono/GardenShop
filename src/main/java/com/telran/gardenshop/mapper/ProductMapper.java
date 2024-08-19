@@ -1,11 +1,11 @@
 package com.telran.gardenshop.mapper;
 
+
+
 import com.telran.gardenshop.dto.ProductDto;
 import com.telran.gardenshop.entity.Product;
-
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
 
 import java.util.List;
 
@@ -13,8 +13,6 @@ import java.util.List;
 public interface ProductMapper {
 
      Product dtoToEntity(ProductDto productDto);
-
-    @Mapping(target = "id", source = "product.id")
 
      ProductDto entityToDto(Product product);
 
