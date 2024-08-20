@@ -20,7 +20,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.telran.gardenshop.service.ProductService;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -58,7 +57,7 @@ public class ProductController {
         return service.getProductsByCategory(category);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<ProductDto> addProduct(@RequestBody @Valid ProductDto product) {
         ProductDto createdProduct = service.add(product);
         if (product.getName() == null || product.getName().isEmpty()) {
@@ -67,13 +66,13 @@ public class ProductController {
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<ProductDto> updateProduct(@RequestBody @Valid ProductDto product) {
         ProductDto updatedProduct = service.updateProduct(product);
         return new ResponseEntity<>(product, updatedProduct !=null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/delete")
     public ResponseEntity<?> deleteById(@RequestParam Long id) {
         return new ResponseEntity<>(HttpStatus.OK);
     }

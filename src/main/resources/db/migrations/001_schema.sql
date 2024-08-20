@@ -1,5 +1,5 @@
 -- liquibase formatted sql
--- changeset Eugen:001
+-- changeset Konovalov:001
 
 CREATE SCHEMA IF NOT EXISTS `garden` DEFAULT CHARACTER SET utf8;
 USE `garden`;
