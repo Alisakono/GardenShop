@@ -16,8 +16,8 @@ import java.sql.Timestamp;
 public class ProductDto {
     private Long id;
 
-    @NotNull(message = "Product name should be not null")
-    @Length(max = 45, message = "Product name should be not null and no more than 45 characters")
+    @NotNull(message = "{validation.product.name}")
+    @Length(max = 45, message =  "{validation.product.name}")
     private String name;
     private BigDecimal price;
     private String description;
