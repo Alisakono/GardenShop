@@ -27,10 +27,9 @@ public class UserService {
         List<User> users = userRepository.findAll();
         return userMapper.entityListToDto(users);
     }
-
-    public Optional<UserDto> getUserByEmail(String email) {
-        Optional<User> user = userRepository.findById(email);
-        return user.map(userMapper::entityToDto);
+    public List<UserDto> getUserByName(String name) {
+        List<User> users = userRepository.findUsersByName(name);
+        return userMapper.entityListToDto(users);
     }
 
     public UserDto addUser(UserDto userDto) {
@@ -51,11 +50,6 @@ public class UserService {
 
     public void deleteUserByEmail(String email) {
         userRepository.deleteById(email);
-    }
-
-    public List<UserDto> getUserByName(String name) {
-        List<User> users = userRepository.findUsersByName(name);
-        return userMapper.entityListToDto(users);
     }
 
     public void deleteAllRoles() {

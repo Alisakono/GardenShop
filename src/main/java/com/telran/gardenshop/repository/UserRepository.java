@@ -12,9 +12,7 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
-
-
-    @Query("SELECT v FROM User v WHERE v.name LIKE %?1%")
+    
     List<User> findUsersByName(String name);
 
 

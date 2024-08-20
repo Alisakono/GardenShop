@@ -2,16 +2,21 @@ package com.telran.gardenshop.controller;
 
 import com.telran.gardenshop.dto.UserDto;
 import com.telran.gardenshop.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
-@RequestMapping("/garden")
+@RequestMapping
+@Validated
+@Slf4j
 public class UserController {
     private  final UserService service;
 
@@ -20,26 +25,23 @@ public class UserController {
         this.service = service;
     }
     @GetMapping("/users")
-    public ResponseEntity<List<UserDto>> getAll() {
-        List<UserDto> users = service.getAll();
-        if (users.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(users, HttpStatus.OK);
+    @Operation(summary = "Retrieve all users")
+    public List<UserDto> getAll() {
+       return service.getAll();
     }
-    @GetMapping("/{email}")
-    public ResponseEntity<UserDto>getUserByEmail(@PathVariable String email){
-        Optional<UserDto>optionalUserDto=service.getUserByEmail(email);
-        return optionalUserDto.map(ResponseEntity::ok)
-                .orElseGet(()->new ResponseEntity<>(HttpStatus.NOT_FOUND));
+
+    @GetMapping("/search")
+    public List<UserDto> getUserByName(@RequestParam String name) {
+        return service.getUserByName(name);
     }
-    @PostMapping
+
+    @PostMapping("/user")
     public ResponseEntity<UserDto> createUser(@RequestBody @Valid UserDto userDto) {
         UserDto created = service.addUser(userDto);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
     @PutMapping("/{email}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable String email, @RequestBody @Valid UserDto userDetails) {
+    public ResponseEntity<UserDto> updateUser(@RequestBody @Valid UserDto userDetails, @PathVariable String email) {
         userDetails.setEmail(email);
         boolean isUpdated = service.updateUser(userDetails);
         if (isUpdated) {
@@ -53,11 +55,6 @@ public class UserController {
     public ResponseEntity<Void> deleteUserByEmail(@PathVariable String email) {
         service.deleteUserByEmail(email);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    }
-
-    @GetMapping("/search")
-    public List<UserDto> getUserByName(@RequestParam String name) {
-        return service.getUserByName(name);
     }
 
     @DeleteMapping("/roles")
