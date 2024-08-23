@@ -1,48 +1,29 @@
 package com.telran.gardenshop.controller;
-
-
-import com.telran.gardenshop.entity.Cart;
-import com.telran.gardenshop.entity.User;
 import com.telran.gardenshop.service.CartService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
-@RequestMapping("/cart")
+@RequestMapping
+@Validated
+@Slf4j
 public class CartController {
 
-    private final CartService service;
+    private final CartService cartService;
 
     @Autowired
-    public CartController(CartService service) {
-        this.service = service;
-    }
-
-    @GetMapping("/user")
-    public ResponseEntity<Cart> getCartByUser(@RequestParam String user) {
-        Cart cart = service.getCartByUser(user);
-        return new ResponseEntity<>(cart, HttpStatus.OK);
+    public CartController(CartService cartService) {
+        this.cartService = cartService;
     }
 
     @PostMapping
-    public ResponseEntity<Cart> addCart(@RequestBody Cart cart) {
-        service.add(cart);
-        return new ResponseEntity<>(cart, HttpStatus.CREATED);
-    }
-
-    @PutMapping
-    public ResponseEntity<Cart> updateCart(@RequestBody Cart cart,@RequestParam User user) {
-        boolean isUpdated = service.updateCart(user.getName(), cart);
-        return new ResponseEntity<>(cart, isUpdated ? HttpStatus.OK : HttpStatus.NOT_FOUND);
-    }
-
-    @DeleteMapping("/{user}")
-    public ResponseEntity<Cart> deleteByUser(@PathVariable String user) {
-        service.deleteByUser(user);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<Void> addProductToCart(@RequestParam String productId, @RequestParam int quantity) {
+        cartService.addProductToCart(productId, quantity);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 
