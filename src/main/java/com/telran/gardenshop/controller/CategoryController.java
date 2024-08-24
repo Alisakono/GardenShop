@@ -14,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Validated
@@ -38,33 +37,33 @@ public class CategoryController {
     @PostMapping
     @Operation(summary = "Create categories")
     public ResponseEntity<CategoryDto> createCategory(@RequestBody @Valid CategoryDto category) {
-        if (category.getName() == null || category.getName().isEmpty()) {
+        if (category.getCategoryId() == null || category.getCategoryName().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         CategoryDto add = service.add(category);
         return new ResponseEntity<>(add, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{category_id}")
     @Operation(summary = "Update categories")
     public ResponseEntity<CategoryDto> updateCategory(@RequestBody @Valid CategoryDto category) {
-        if (category.getName() == null || category.getName().isEmpty()) {
+        if (category.getCategoryName().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if (category.getId() == null) {
+        if (category.getCategoryId() == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         CategoryDto updateCategory = service.updateCategory(category);
         return new ResponseEntity<>(updateCategory, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{category_id}")
     @Operation(summary = "Delete categories")
-    public ResponseEntity<?> deleteCategory(@PathVariable Long id) {
-        if (id == null) {
+    public ResponseEntity<?> deleteCategory(@PathVariable Category categoryId) {
+        if (categoryId == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        service.remove(id);
+        service.remove(categoryId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

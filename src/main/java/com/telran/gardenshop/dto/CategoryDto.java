@@ -14,9 +14,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryDto {
-    private Long id;
     @NotNull(message = "{validation.category.name}" )
     @Length(max = 45, message = "{validation.category.name}")
-    private String name;
-    private List<ProductDto> products;
+    private String categoryId;
+    @NotNull(message = "{validation.category.name}" )
+    @Length(max = 45, message = "{validation.category.name}")
+    private String categoryName;
+  //  private List<ProductResponseDto> products;
 }

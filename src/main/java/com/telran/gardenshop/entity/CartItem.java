@@ -19,26 +19,14 @@ public class CartItem {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "cart_id", nullable = false)
-    private Cart cart;
+    @JoinColumn(name = "order_id")
+    private Order order;
 
- /*   @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)*/
-//import jakarta.persistence.Column;
-//
-//private Product product;
-//
-//    @Column(nullable = false)
-//    private Integer quantity;
-   /* private Product product;
-
-    @Column(nullable = false)
-    private Integer quantity;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
 
 
-    public CartItem(Product product, Integer quantity) {
-        this.product = product;
-        this.quantity = quantity;
-    }*/
+   private Integer quantity;
 
 }

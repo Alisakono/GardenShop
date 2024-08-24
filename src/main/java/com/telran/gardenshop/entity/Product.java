@@ -13,8 +13,8 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -33,7 +33,7 @@ public class Product {
     private BigDecimal discountPrice;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-    @JsonIgnore
+   //@JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;

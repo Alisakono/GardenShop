@@ -1,6 +1,5 @@
 package com.telran.gardenshop.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,26 +17,23 @@ import java.util.Objects;
 @Table(name = "categories")
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
-    private Long id;
-    @Column(name = "name")
-    private String name;
-
-    @OneToMany(mappedBy = "category")
-    @JsonBackReference("category")
-    private List<Product> products;
+    private String categoryId;
+    @Column(name = "category_name")
+    private String categoryName;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Category category = (Category) o;
-        return Objects.equals(id, category.id) && Objects.equals(name, category.name);
+        return Objects.equals(categoryId, category.categoryId) && Objects.equals(categoryName, category.categoryName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(categoryId, categoryName);
     }
+//@OneToMany
+    //private List<Product> products;
 }
