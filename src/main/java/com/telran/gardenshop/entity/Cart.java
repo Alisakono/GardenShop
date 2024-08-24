@@ -1,36 +1,24 @@
 package com.telran.gardenshop.entity;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Objects;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name="carts")
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "cart_id")
+    private Long cartId;
+
+    @JoinColumn(name ="email")
     @OneToOne
-    private User user;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cart cart = (Cart) o;
-        return Objects.equals(user, cart.user);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(user);
-    }
-
+    private User email;
 }

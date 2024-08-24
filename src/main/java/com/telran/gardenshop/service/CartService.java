@@ -1,46 +1,28 @@
 package com.telran.gardenshop.service;
 
-import com.telran.gardenshop.entity.Cart;
+
+
 import com.telran.gardenshop.repository.CartRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
+@Transactional
 public class CartService {
 
-    private final CartRepository repository;
+    private final CartRepository cartRepository;
 
     @Autowired
-    public CartService(CartRepository repository) {
-        this.repository = repository;
+    public CartService(CartRepository cartRepository) {
+        this.cartRepository = cartRepository;
     }
 
-    public Cart getCartByUser(String user) {
-        Optional<Cart> cart = repository.findById(user);
-        return new Cart();
-    }
+    public void addProductToCart(String productId, int quantity) {
 
-    public void add(Cart cart) {
-        repository.save(cart);
-
-    }
-    public boolean updateCart(String user, Cart cart) {
-        Optional<Cart> optional = repository.findById(user);
-        if (optional.isPresent()) {
-            Cart existingCart = optional.get();
-           /* existingCart.setItems(updateCart.getItems);
-            existingCart.setTotalPrice(updatedCart.getTotalPrice());*/
-            repository.save(existingCart);
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public void deleteByUser(String user) {
-        repository.deleteById(user);
     }
 }
+
     
 
