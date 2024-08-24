@@ -1,5 +1,6 @@
 package com.telran.gardenshop.dto;
 
+import com.telran.gardenshop.entity.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -46,7 +46,7 @@ public class ProductService {
         return repository.findAll(pageable).map(productMapper::entityToRequestDto);
     }
 
-    public ProductRequestDto add(@Valid ProductRequestDto productRequestDto) {
+    public ProductRequestDto add( ProductRequestDto productRequestDto) {
         Product product =productMapper.dtoToEntity(productRequestDto);
         Product createdProduct = repository.save(product);
         return productMapper.entityToRequestDto(createdProduct);

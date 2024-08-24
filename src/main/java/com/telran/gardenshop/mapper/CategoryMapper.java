@@ -1,11 +1,8 @@
 package com.telran.gardenshop.mapper;
 
 import com.telran.gardenshop.dto.CategoryDto;
-import com.telran.gardenshop.dto.ProductResponseDto;
 import com.telran.gardenshop.entity.Category;
-import com.telran.gardenshop.entity.Product;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
@@ -13,11 +10,11 @@ import java.util.List;
 public abstract class CategoryMapper {
    public abstract Category dtoToEntity(CategoryDto categoryDto);
    public abstract CategoryDto entityToDto(Category category);
-  /*public ProductResponseDto productToProductDto(Product product) {
-      return Mappers.getMapper(ProductMapper.class).entityToResponseDto(product);
+ /* public ProductRequestDto productToProductRequestDto(Product product) {
+      return Mappers.getMapper(ProductMapper.class).entityToRequestDto(product);
 
-  }*/
-
+  }
+*/
     public abstract List<CategoryDto> entityToDtoList(List<Category> categories);
 
 }

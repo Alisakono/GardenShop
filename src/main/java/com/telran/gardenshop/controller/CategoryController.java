@@ -37,33 +37,30 @@ public class CategoryController {
     @PostMapping
     @Operation(summary = "Create categories")
     public ResponseEntity<CategoryDto> createCategory(@RequestBody @Valid CategoryDto category) {
-        if (category.getCategoryId() == null || category.getCategoryName().isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
         CategoryDto add = service.add(category);
         return new ResponseEntity<>(add, HttpStatus.CREATED);
     }
 
     @PutMapping("/{category_id}")
     @Operation(summary = "Update categories")
-    public ResponseEntity<CategoryDto> updateCategory(@RequestBody @Valid CategoryDto category) {
-        if (category.getCategoryName().isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        if (category.getCategoryId() == null) {
+    public ResponseEntity<CategoryDto> updateCategory(@PathVariable("category_id") String categoryId, @RequestBody @Valid CategoryDto category) {
+        if (categoryId == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        CategoryDto updateCategory = service.updateCategory(category);
-        return new ResponseEntity<>(updateCategory, HttpStatus.OK);
+        category.setCategoryId(categoryId);
+        CategoryDto updatedCategory = service.updateCategory(category);
+        return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
     }
+
 
     @DeleteMapping("/{category_id}")
     @Operation(summary = "Delete categories")
-    public ResponseEntity<?> deleteCategory(@PathVariable Category categoryId) {
+    public ResponseEntity<?> deleteCategory(@PathVariable("category_id") Category categoryId) {
         if (categoryId == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         service.remove(categoryId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }
