@@ -14,8 +14,8 @@ PRIMARY KEY (email)
 );
 
 CREATE TABLE IF NOT EXISTS `garden`.`categories` (
-category_id INT NOT NULL AUTO_INCREMENT,
-name VARCHAR(45) NOT NULL,
+category_id VARCHAR(45) NOT NULL,
+category_name VARCHAR(45) NOT NULL,
 PRIMARY KEY (category_id)
 );
 
@@ -24,7 +24,7 @@ product_id INT NOT NULL AUTO_INCREMENT,
 name VARCHAR(45) NOT NULL,
 description TEXT NOT NULL,
 price DECIMAL(10,2) NOT NULL,
-category_id INT NOT NULL,
+category_id VARCHAR(45) NOT NULL,
 image_url VARCHAR(45) NOT NULL,
 discount_price DECIMAL(10,2) NOT NULL,
 created_at TIMESTAMP NOT NULL,

@@ -8,7 +8,8 @@ values  ('Alise Smith', 'alise@example.com',1234567890,'hash_password1','ADMIN')
         ('Diana King', 'diana@example.com', 4567890123,'hash_password4', 'USER'),
         ('Ethan Brown', 'ethan@example.com', 5678901234,'hash_password5', 'MANAGER');
 
-insert into categories(category_id,name)
+
+
 values ('1','Fertilizer'),
        ('2','Protective products and septic tanks'),
        ('3','Planting material'),
@@ -18,7 +19,6 @@ values ('1','Fertilizer'),
 insert into products( name, price, description, image_url, discount_price,created_at, updated_at,category_id)
 values  ('Organic Fertilizer', 15.99, 'High-quantity organic fertilizer for heath pant growth.',
          'images/fertilizer1.png',12.99,NOW() ,NOW(), '1'),
-       ('Nitrogen Fertilizer', 12.49, 'Nitrogen-rich fertilizer to promote eaf development.',
          'images/fertilizer2.png', 10.99,NOW() , NOW(), '1'),
        ('Phosphate Fertilizer', 18.75, 'Phosphate-based fertilizer for root growth.',
          'images/fertilizer3.png', 15.99, NOW(),NOW(),'1'),
@@ -42,7 +42,6 @@ values  ('Organic Fertilizer', 15.99, 'High-quantity organic fertilizer for heat
         'images/panting2.png', 5.49,NOW(),NOW(),'3'),
        ( 'Potato Tubers', 6.99, 'High-yield potato tubers for panting.',
         'images/panting3.png', 6.49,NOW(),NOW(),'3'),
-       ('Onion Bubs', 4.99, 'Fresh onion bubs for panting.',
         'images/panting4.png', 4.49,NOW(),NOW(),'3'),
        ( 'Carrot Seeds', 2.99, 'Quality carrot seeds for high yield.',
         'images/panting5.png', 2.49,NOW(),NOW(),'3');

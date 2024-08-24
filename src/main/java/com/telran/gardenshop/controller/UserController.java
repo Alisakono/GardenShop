@@ -24,16 +24,6 @@ public class UserController {
     public UserController(UserService service){
         this.service = service;
     }
-    @GetMapping("/users")
-    @Operation(summary = "Retrieve all users")
-    public List<UserDto> getAll() {
-       return service.getAll();
-    }
-
-    @GetMapping("/search")
-    public List<UserDto> getUserByName(@RequestParam String name) {
-        return service.getUserByName(name);
-    }
 
     @PostMapping("/user")
     public ResponseEntity<UserDto> createUser(@RequestBody @Valid UserDto userDto) {
@@ -50,16 +40,9 @@ public class UserController {
             return new ResponseEntity<>(userDetails, HttpStatus.NOT_FOUND);
         }
     }
-
     @DeleteMapping("/{email}")
     public ResponseEntity<Void> deleteUserByEmail(@PathVariable String email) {
         service.deleteUserByEmail(email);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    }
-
-    @DeleteMapping("/roles")
-    public ResponseEntity<Void> deleteAllRoles() {
-        service.deleteAllRoles();
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

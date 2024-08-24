@@ -23,15 +23,6 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public List<UserDto> getAll() {
-        List<User> users = userRepository.findAll();
-        return userMapper.entityListToDto(users);
-    }
-    public List<UserDto> getUserByName(String name) {
-        List<User> users = userRepository.findUsersByName(name);
-        return userMapper.entityListToDto(users);
-    }
-
     public UserDto addUser(UserDto userDto) {
         User user = userMapper.dtoToEntity(userDto);
         User savedUser = userRepository.save(user);
@@ -52,7 +43,4 @@ public class UserService {
         userRepository.deleteById(email);
     }
 
-    public void deleteAllRoles() {
-        userRepository.deleteAll();
-    }
 }

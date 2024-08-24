@@ -1,8 +1,10 @@
 package com.telran.gardenshop.mapper;
 
 
-
-import com.telran.gardenshop.dto.ProductDto;
+import com.telran.gardenshop.dto.CategoryDto;
+import com.telran.gardenshop.dto.ProductRequestDto;
+import com.telran.gardenshop.dto.ProductResponseDto;
+import com.telran.gardenshop.entity.Category;
 import com.telran.gardenshop.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,9 +14,25 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
-     Product dtoToEntity(ProductDto productDto);
+    default Product dtoToEntity() {
+        return dtoToEntity(null);
+    }
 
-     ProductDto entityToDto(Product product);
+    default Product dtoToEntity(ProductRequestDto productRequestDto) {
+        return null;
+    }
 
-    List<ProductDto> entityListToDto(List<Product> products);
+    @Mapping(target = "categoryId",source = "category.id")
+    default ProductResponseDto entityToResponseDto() {
+        return entityToResponseDto(null);
+    }
+
+    ProductResponseDto entityToResponseDto(Product product);
+
+    List<ProductResponseDto> toResponseDtoList(List<Product> products);
+
+
+    List<ProductRequestDto> toRequestDtoList(List<Product> products);
+
+    ProductRequestDto entityToRequestDto(Product createdProduct);
 }

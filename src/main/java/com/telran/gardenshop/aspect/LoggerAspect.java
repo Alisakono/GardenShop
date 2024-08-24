@@ -14,7 +14,7 @@ import java.util.Arrays;
 @Aspect
 @Component
 public class LoggerAspect {
-    private final Logger logger = LogManager.getLogger(this.getClass());
+    private final Logger logger = LogManager.getLogger(LoggerAspect.class);
 
     @Pointcut("within(com.telran.gardenshop.controller..*) || within(com.telran.gardenshop.service..*)")
     public void applicationPackagePointcut() {
@@ -22,16 +22,16 @@ public class LoggerAspect {
     @Before("applicationPackagePointcut()")
     public void beforeAdvice(JoinPoint joinPoint) {
         logger.debug("Method {} from Class {} started with args:{}",
-                () -> joinPoint.getSignature().getName(),
-                () -> joinPoint.getSourceLocation().getWithinType().getName(),
-                () -> Arrays.toString(joinPoint.getArgs()));
+                joinPoint.getSignature().getName(),
+                joinPoint.getSourceLocation().getWithinType().getName(),
+                 Arrays.toString(joinPoint.getArgs()));
     }
 
     @AfterReturning(pointcut = "applicationPackagePointcut()", returning = "returnValue")
     public void afterReturningAdvice(JoinPoint joinPoint, Object returnValue) {
         logger.debug("Method {} from Class {} completed with return value: {}",
-                () -> joinPoint.getSignature().getName(),
-                () -> joinPoint.getSourceLocation().getWithinType().getName(),
-                () -> returnValue);
+                joinPoint.getSignature().getName(),
+                 joinPoint.getSourceLocation().getWithinType().getName(),
+                 returnValue != null ? returnValue.toString() : null);
     }
 }
