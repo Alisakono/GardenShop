@@ -12,19 +12,23 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
+   // @Mapping(source = "category.categoryId", target = "categoryId")
     ProductResponseDto entityToResponseDto(Product product);
 
     List<ProductResponseDto> toResponseDtoList(List<Product> products);
 
-
+    //@Mapping(source = "category.categoryId", target = "categoryId")
+    ProductRequestDto entityToRequestDto(Product product);
+    @Mapping(source = "cartItemId", target = "cartItem.cartItemId")
     List<ProductRequestDto> toRequestDtoList(List<Product> products);
 
-
-    ProductRequestDto entityToRequestDto(Product createdProduct);
-
+   // @Mapping(source = "categoryId", target = "category.categoryId")
     Product productRequestDtoToEntity(ProductRequestDto productRequestDto);
+
+    @Mapping(source = "categoryId", target = "category.categoryId")
     Product productResponseDtoToEntity(ProductResponseDto productResponseDto);
 
 
+  //  @Mapping(source = "categoryId", target = "category.categoryId")
     Product dtoToEntity(ProductRequestDto productRequestDto);
 }
