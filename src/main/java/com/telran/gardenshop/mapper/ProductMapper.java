@@ -21,9 +21,6 @@ public interface ProductMapper {
     @Mapping(source = "cartItemId", target = "cartItem.cartItemId")
     List<ProductRequestDto> toRequestDtoList(List<Product> products);
 
-    @Mapping(source = "category.categoryId", target = "categoryId")
-    ProductRequestDto entityToRequestDto(Product createdProduct);
-
     Product productRequestDtoToEntity(ProductRequestDto productRequestDto);
 
     @Mapping(source = "categoryId", target = "category.categoryId")
