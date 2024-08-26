@@ -11,8 +11,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
-
-   // @Mapping(source = "category.categoryId", target = "categoryId")
+    @Mapping(source = "category.categoryId", target = "categoryId")
     ProductResponseDto entityToResponseDto(Product product);
 
     List<ProductResponseDto> toResponseDtoList(List<Product> products);
@@ -22,13 +21,11 @@ public interface ProductMapper {
     @Mapping(source = "cartItemId", target = "cartItem.cartItemId")
     List<ProductRequestDto> toRequestDtoList(List<Product> products);
 
-   // @Mapping(source = "categoryId", target = "category.categoryId")
     Product productRequestDtoToEntity(ProductRequestDto productRequestDto);
 
     @Mapping(source = "categoryId", target = "category.categoryId")
     Product productResponseDtoToEntity(ProductResponseDto productResponseDto);
 
 
-  //  @Mapping(source = "categoryId", target = "category.categoryId")
     Product dtoToEntity(ProductRequestDto productRequestDto);
 }

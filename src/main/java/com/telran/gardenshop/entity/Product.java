@@ -33,7 +33,6 @@ public class Product {
     private BigDecimal discountPrice;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-   //@JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;

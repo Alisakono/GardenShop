@@ -20,5 +20,4 @@ public class CategoryDto {
     @NotNull(message = "{validation.category.name}" )
     @Length(max = 45, message = "{validation.category.name}")
     private String categoryName;
-   private List<ProductResponseDto> products;
 }

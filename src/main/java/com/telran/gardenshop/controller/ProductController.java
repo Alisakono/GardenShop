@@ -35,18 +35,18 @@ public class ProductController {
         this.service = service;
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     @Operation(summary = "Retrieve all product")
     public List<ProductRequestDto> getAll() {
         return service.getAll();
     }
     @GetMapping("/withSort")
-    public List<ProductRequestDto> getAll(@SortDefault(sort = "name", direction = Sort.Direction.DESC) Sort sort){
+    public List<ProductRequestDto> getAll(@SortDefault(sort = "name", direction = Sort.Direction.ASC) Sort sort){
         return service.getAllSorted(sort);
     }
 
     @GetMapping("/pages")
-    public Page<ProductRequestDto> getAll(@PageableDefault(size = 10)
+    public Page<ProductRequestDto> getAll(@PageableDefault(size = 5)
                                    @SortDefault.SortDefaults({@SortDefault(sort = "name")})
                                    Pageable pageable){
         return service.getAllByPages(pageable);
