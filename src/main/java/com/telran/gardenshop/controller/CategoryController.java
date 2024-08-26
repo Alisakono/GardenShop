@@ -41,13 +41,9 @@ public class CategoryController {
         return new ResponseEntity<>(add, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{category_id}")
+   @PutMapping
     @Operation(summary = "Update categories")
-    public ResponseEntity<CategoryDto> updateCategory(@PathVariable("category_id") String categoryId, @RequestBody @Valid CategoryDto category) {
-        if (categoryId == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        category.setCategoryId(categoryId);
+    public ResponseEntity<CategoryDto> updateCategory( @RequestBody @Valid CategoryDto category) {
         CategoryDto updatedCategory = service.updateCategory(category);
         return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
     }

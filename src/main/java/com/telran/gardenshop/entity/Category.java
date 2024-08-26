@@ -34,6 +34,5 @@ public class Category {
     public int hashCode() {
         return Objects.hash(categoryId, categoryName);
     }
-//@OneToMany
-    //private List<Product> products;
+
 }
