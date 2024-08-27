@@ -2,17 +2,11 @@ package com.telran.gardenshop.controller;
 
 import com.telran.gardenshop.dto.ProductRequestDto;
 import com.telran.gardenshop.dto.ProductResponseDto;
-import com.telran.gardenshop.entity.Category;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -35,23 +29,22 @@ public class ProductController {
         this.service = service;
     }
 
-    @GetMapping("/all")
-    @Operation(summary = "Retrieve all product")
-    public List<ProductRequestDto> getAll() {
-        return service.getAll();
-    }
-    @GetMapping("/withSort")
-    public List<ProductRequestDto> getAll(@SortDefault(sort = "name", direction = Sort.Direction.DESC) Sort sort){
-        return service.getAllSorted(sort);
+    @GetMapping("/{product_id}")
+    @Operation(summary = "Retrieve product by id")
+    public ProductResponseDto getById( @PathVariable Long product_id) {
+        return service.getById(product_id);
     }
 
-    @GetMapping("/pages")
-    public Page<ProductRequestDto> getAll(@PageableDefault(size = 10)
-                                   @SortDefault.SortDefaults({@SortDefault(sort = "name")})
-                                   Pageable pageable){
-        return service.getAllByPages(pageable);
+    @GetMapping
+    public ResponseEntity <List<ProductResponseDto>> getProductsByFilters(
+           /* @RequestParam(required = false) String category,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required = false) Boolean discount,
+            @RequestParam(required = false) String sort*/) {
+        List<ProductResponseDto> productsByFilters = service.getProductsByFilters(null, null, null, null, null);
+        return new ResponseEntity<>(productsByFilters,HttpStatus.OK);
     }
-
     @PostMapping("")
     public ResponseEntity<ProductRequestDto> addProduct(@RequestBody @Valid ProductRequestDto product) {
         ProductRequestDto createdProduct = service.add(product);
@@ -63,12 +56,19 @@ public class ProductController {
 
     @PutMapping("/productId")
     public ResponseEntity<ProductRequestDto> updateProduct(@RequestParam Long id,@RequestBody @Valid ProductRequestDto product) {
-        ProductResponseDto updatedProduct = service.updateProduct(id, product);
-       return new ResponseEntity<>(updatedProduct !=null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+        ProductRequestDto updatedProduct = service.updateProduct(id,new ProductRequestDto());
+        if (updatedProduct == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(updatedProduct,HttpStatus.OK);
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<?> deleteById(@RequestParam Long id) {
+    @DeleteMapping("/productId")
+    public ResponseEntity<?> deleteProduct(@RequestParam Long id) {
+        if (id == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+       service.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -21,6 +21,9 @@ public class Category {
     private String categoryId;
     @Column(name = "category_name")
     private String categoryName;
+    @OneToMany(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "product_id")
+    private List<Product> products;
 
     @Override
     public boolean equals(Object o) {
