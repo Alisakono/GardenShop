@@ -13,8 +13,6 @@ import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
-    //@Mapping(source = "product.productId", target = "productId")
-    //@Mapping(source = "productId", target = "product.productId")
     @Mapping(source = "category.categoryId", target = "categoryId")
     ProductResponseDto entityToResponseDto(Product product);
 
@@ -33,8 +31,10 @@ public interface ProductMapper {
 
     Product productResponseDtoToEntity(ProductResponseDto productResponseDto);
 
+
     //@Mapping(source = "productId", target = "product.productId")
     @Mapping(source = "categoryId", target = "category.categoryId")
+
     Product dtoToEntity(ProductRequestDto productRequestDto);
 
     ProductResponseDto entityToResponseDto(Optional<Product> product, HttpStatus httpStatus);

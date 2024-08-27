@@ -29,6 +29,7 @@ public class ProductController {
         this.service = service;
     }
 
+
     @GetMapping("/{product_id}")
     @Operation(summary = "Retrieve product by id")
     public ProductResponseDto getById( @PathVariable Long product_id) {
@@ -44,6 +45,7 @@ public class ProductController {
             @RequestParam(required = false) String sort*/) {
         List<ProductResponseDto> productsByFilters = service.getProductsByFilters(null, null, null, null, null);
         return new ResponseEntity<>(productsByFilters,HttpStatus.OK);
+
     }
     @PostMapping("")
     public ResponseEntity<ProductRequestDto> addProduct(@RequestBody @Valid ProductRequestDto product) {
