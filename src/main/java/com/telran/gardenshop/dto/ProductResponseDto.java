@@ -18,7 +18,8 @@ public class ProductResponseDto {
     private String categoryId;
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
-    private BigDecimal discountPrice;
+    private Boolean discount;
+    private String sort;
 
 }
 //category, minPrice, maxPrice, discount, sort
