@@ -2,8 +2,11 @@ package com.telran.gardenshop.controller;
 
 import com.telran.gardenshop.dto.ProductRequestDto;
 import com.telran.gardenshop.dto.ProductResponseDto;
+
 import com.telran.gardenshop.dto.ProductUpdateDto;
 import com.telran.gardenshop.entity.Product;
+
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -34,6 +37,7 @@ public class ProductController {
     }
 
 
+
     @GetMapping("/{id}")
     @Operation(summary = "Retrieve product by id")
     public ResponseEntity<Product> getById(@PathVariable Long id) {
@@ -53,13 +57,14 @@ public class ProductController {
             @RequestParam(required = false) Boolean discount) {
         List<ProductResponseDto> productsByFilters = service.getProductsByFilters(category, minPrice, maxPrice, discount);
         return new ResponseEntity<>(productsByFilters, HttpStatus.OK);
-    }
 
+    }
     @PostMapping("")
     public ResponseEntity<ProductResponseDto> addProduct(@RequestBody @Valid ProductRequestDto productRequestDto) {
         ProductResponseDto createdProduct = service.addProduct(productRequestDto);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<ProductResponseDto> updateProduct(@PathVariable Long id, @RequestBody @Valid ProductUpdateDto productUpdateDto) {
@@ -68,11 +73,14 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+
     public ResponseEntity<?> deleteProduct(@RequestParam Long id) {
         if (id == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
         service.remove(id);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

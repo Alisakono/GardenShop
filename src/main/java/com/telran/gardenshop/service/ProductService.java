@@ -2,10 +2,13 @@ package com.telran.gardenshop.service;
 
 import com.telran.gardenshop.dto.ProductRequestDto;
 import com.telran.gardenshop.dto.ProductResponseDto;
+
 import com.telran.gardenshop.dto.ProductUpdateDto;
 import com.telran.gardenshop.entity.Product;
 import com.telran.gardenshop.mapper.ProductMapper;
 import com.telran.gardenshop.repository.ProductRepository;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,7 @@ public class ProductService {
     public ProductService(ProductRepository repository, ProductMapper productMapper) {
         this.repository = repository;
         this.productMapper = productMapper;
+
 
     }
 
@@ -66,7 +70,20 @@ public class ProductService {
        return filteredProducts.stream().map(productMapper::entityToResponseDto)
                .collect(Collectors.toList());
 
+
     }
+
+    public ProductResponseDto getById(Long productId) {
+        Optional<Product> product = repository.findById(productId);
+        return productMapper.entityToResponseDto(product, HttpStatus.OK);
+    }
+
+    public List<ProductResponseDto> getProductsByFilters(String categoryId, BigDecimal minPrice, BigDecimal maxPrice, Boolean discount, String sort) {
+        List<Product> products = repository.findProductsByFilters(categoryId, minPrice, maxPrice, discount, sort);
+        return products.stream().map(productMapper::entityToResponseDto).collect(Collectors.toList());
+    }
+
+
 }
 
 

@@ -6,7 +6,9 @@ import com.telran.gardenshop.dto.ProductUpdateDto;
 import com.telran.gardenshop.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
 import org.springframework.data.domain.Sort;
+
 import org.springframework.http.HttpStatus;
 
 import java.math.BigDecimal;
@@ -19,6 +21,7 @@ public interface ProductMapper {
     ProductResponseDto entityToResponseDto(Product product);
 
     ProductResponseDto entityToResponseDto(ProductRequestDto products);
+
 
     @Mapping(source = "categoryId", target = "category.categoryId")
     List<Product> toResponseDtoList(List<Product> products);
@@ -35,6 +38,7 @@ public interface ProductMapper {
 
     Product dtoToEntity(Long id, ProductUpdateDto productUpdateDto);
 
+
     ProductRequestDto entityToRequestDto(Optional<Product> product, HttpStatus httpStatus);
 
     default Product dtoToEntity(ProductRequestDto productRequestDto) {
@@ -44,4 +48,5 @@ public interface ProductMapper {
    // @Mapping(target = "id", source = "product.id")
     @Mapping(source = "category.categoryId", target = "categoryId")
     ProductRequestDto entityToRequestDto(Product product);
+
 }

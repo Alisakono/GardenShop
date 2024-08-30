@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductResponseDto {
+
 private Long id;
 private String name;
 private String description;
@@ -22,6 +23,7 @@ private String description;
   private String categoryId;
   private String imageUrl;
   private BigDecimal discountPrice;
+
 
 }
 
