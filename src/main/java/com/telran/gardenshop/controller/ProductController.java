@@ -2,6 +2,11 @@ package com.telran.gardenshop.controller;
 
 import com.telran.gardenshop.dto.ProductRequestDto;
 import com.telran.gardenshop.dto.ProductResponseDto;
+
+import com.telran.gardenshop.dto.ProductUpdateDto;
+import com.telran.gardenshop.entity.Product;
+
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -13,7 +18,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.telran.gardenshop.service.ProductService;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
@@ -30,47 +37,50 @@ public class ProductController {
     }
 
 
-    @GetMapping("/{product_id}")
+
+    @GetMapping("/{id}")
     @Operation(summary = "Retrieve product by id")
-    public ProductResponseDto getById( @PathVariable Long product_id) {
-        return service.getById(product_id);
+    public ResponseEntity<Product> getById(@PathVariable Long id) {
+        Optional<Product> product = service.getById(id);
+        if (product.isPresent()) {
+            return new ResponseEntity<>(product.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 
-    @GetMapping
-    public ResponseEntity <List<ProductResponseDto>> getProductsByFilters(
-           /* @RequestParam(required = false) String category,
+    @GetMapping("")
+    public ResponseEntity<List<ProductResponseDto>> getProductsByFilters(
+            @RequestParam(required = false) String category,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
-            @RequestParam(required = false) Boolean discount,
-            @RequestParam(required = false) String sort*/) {
-        List<ProductResponseDto> productsByFilters = service.getProductsByFilters(null, null, null, null, null);
-        return new ResponseEntity<>(productsByFilters,HttpStatus.OK);
+            @RequestParam(required = false) Boolean discount) {
+        List<ProductResponseDto> productsByFilters = service.getProductsByFilters(category, minPrice, maxPrice, discount);
+        return new ResponseEntity<>(productsByFilters, HttpStatus.OK);
 
     }
     @PostMapping("")
-    public ResponseEntity<ProductRequestDto> addProduct(@RequestBody @Valid ProductRequestDto product) {
-        ProductRequestDto createdProduct = service.add(product);
-        if (product.getName().isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>(createdProduct,HttpStatus.CREATED);
+    public ResponseEntity<ProductResponseDto> addProduct(@RequestBody @Valid ProductRequestDto productRequestDto) {
+        ProductResponseDto createdProduct = service.addProduct(productRequestDto);
+        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
-    @PutMapping("/productId")
-    public ResponseEntity<ProductRequestDto> updateProduct(@RequestParam Long id,@RequestBody @Valid ProductRequestDto product) {
-        ProductRequestDto updatedProduct = service.updateProduct(id,new ProductRequestDto());
-        if (updatedProduct == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(updatedProduct,HttpStatus.OK);
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductResponseDto> updateProduct(@PathVariable Long id, @RequestBody @Valid ProductUpdateDto productUpdateDto) {
+        ProductResponseDto updatedProduct = service.updateProduct(id, productUpdateDto);
+        return updatedProduct != null ? new ResponseEntity<>(updatedProduct, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("/productId")
+    @DeleteMapping("/{id}")
+
     public ResponseEntity<?> deleteProduct(@RequestParam Long id) {
         if (id == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-       service.remove(id);
+
+        service.remove(id);
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

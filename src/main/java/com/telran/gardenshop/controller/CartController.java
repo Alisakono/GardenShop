@@ -1,4 +1,5 @@
 package com.telran.gardenshop.controller;
+import com.telran.gardenshop.dto.CartDto;
 import com.telran.gardenshop.service.CartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping
+@RequestMapping("/cart")
 @Validated
 @Slf4j
 public class CartController {
@@ -21,9 +24,13 @@ public class CartController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> addProductToCart(@RequestParam String productId, @RequestParam int quantity) {
+    public ResponseEntity<List<CartDto>> addProductToCart(@RequestParam String productId, @RequestParam Integer quantity) {
         cartService.addProductToCart(productId, quantity);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if (quantity > 0) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
 
