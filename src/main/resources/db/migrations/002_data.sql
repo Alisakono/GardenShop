@@ -45,19 +45,19 @@ values  ('Organic Fertilizer', 15.99, 'High-quantity organic fertilizer for heat
        ( 'Onion Bubs', 4.99, 'Fresh onion bubs for panting.',
         'images/panting4.png', 4.49,NOW(),NOW(),'3'),
        ( 'Carrot Seeds', 2.99, 'Quality carrot seeds for high yield.',
-        'images/panting5.png', 2.49,NOW(),NOW(),'3');
-      /* (16, 'Garden Shove', 12.99, 'Durable shove for a garden tasks.', 'TOOS_EQUIPMENT',
-        'images/toos1.png', 11.49),
-       (17, 'Pruning Shears', 14.99, 'Sharp shears for precise pruning.', 'TOOS_EQUIPMENT',
-        'images/toos2.png', 13.49),
-       (18, 'Watering Can', 9.99, 'lightweight watering can with a are capacity.',
-        'TOOS_EQUIPMENT', 'images/toos3.png', 8.99),
-       (19, 'Wheelbarrow', 49.99, 'Heavy-duty wheelbarrow for easy transport.', 'TOOS_EQUIPMENT',
-        'images/toos4.png', 44.99),
-       (20, 'Garden Hoe', 10.99, 'Efficient garden hoe for soi preparation.', 'TOOS_EQUIPMENT',
-        'images/toos5.png', 9.49),
-       (21, 'Cay Pot', 7.99, 'Classic cay pot for indoor and outdoor use.', 'POTS_PAINTERS',
-        'images/pots1.png', 6.99);*/
+        'images/panting5.png', 2.49,NOW(),NOW(),'3'),
+       ('Garden Shove', 12.99, 'Durable shove for a garden tasks.',
+        'images/toos1.png', 11.49,NOW(),NOW(),'4'),
+       ('Pruning Shears', 14.99, 'Sharp shears for precise pruning.',
+        'images/toos2.png', 13.49,NOW(),NOW(),'4'),
+       ('Watering Can', 9.99, 'lightweight watering can with a are capacity.',
+         'images/toos3.png', 8.99,NOW(),NOW(),'4'),
+       ( 'Wheelbarrow', 49.99, 'Heavy-duty wheelbarrow for easy transport.',
+        'images/toos4.png', 44.99,NOW(),NOW(),'4'),
+       ('Garden Hoe', 10.99, 'Efficient garden hoe for soi preparation.',
+        'images/toos5.png', 9.49,NOW(),NOW(),'4'),
+       ('Cay Pot', 7.99, 'Classic cay pot for indoor and outdoor use.',
+        'images/pots1.png', 6.99,NOW(),NOW(),'5');
 
 insert into carts(email)
 values ('alise@example.com'),
@@ -66,3 +66,18 @@ values ('alise@example.com'),
         ('diana@example.com'),
         ('ethan@example.com');
 
+insert into cart_items(cart_id,product_id,quantity)
+values ('1','1',2),
+       ('2','3',4),
+       ('3','2',4),
+       ('4','4',4),
+       ('5','3',4);
+
+insert into orders(email, created_at, delivery_address, contact_phone, delivery_method, status, updated_at)
+VALUES ('alise@example.com',NOW(),'Berlin Mapper Str.20',1234567890,'courier','pending',NOW());
+
+insert into order_items(order_id, product_id, quantity, price_at_purchase)
+VALUES ('1','2',5,12.99),
+         ('1','3',5,12.99),
+         ('1','1',5,12.99),
+         ('1','4',5,12.99);

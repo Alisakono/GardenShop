@@ -2,24 +2,22 @@ package com.telran.gardenshop.controller;
 
 import com.telran.gardenshop.dto.ProductRequestDto;
 import com.telran.gardenshop.dto.ProductResponseDto;
-import com.telran.gardenshop.entity.Category;
+import com.telran.gardenshop.dto.ProductUpdateDto;
+import com.telran.gardenshop.entity.Product;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.telran.gardenshop.service.ProductService;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
@@ -35,40 +33,46 @@ public class ProductController {
         this.service = service;
     }
 
-    @GetMapping("")
-    @Operation(summary = "Retrieve all product")
-    public List<ProductRequestDto> getAll() {
-        return service.getAll();
-    }
-    @GetMapping("/withSort")
-    public List<ProductRequestDto> getAll(@SortDefault(sort = "name", direction = Sort.Direction.ASC) Sort sort){
-        return service.getAllSorted(sort);
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Retrieve product by id")
+    public ResponseEntity<Product> getById(@PathVariable Long id) {
+        Optional<Product> product = service.getById(id);
+        if (product.isPresent()) {
+            return new ResponseEntity<>(product.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
     }
 
-    @GetMapping("/pages")
-    public Page<ProductRequestDto> getAll(@PageableDefault(size = 5)
-                                   @SortDefault.SortDefaults({@SortDefault(sort = "name")})
-                                   Pageable pageable){
-        return service.getAllByPages(pageable);
+    @GetMapping("")
+    public ResponseEntity<List<ProductResponseDto>> getProductsByFilters(
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(required = false) Boolean discount) {
+        List<ProductResponseDto> productsByFilters = service.getProductsByFilters(category, minPrice, maxPrice, discount);
+        return new ResponseEntity<>(productsByFilters, HttpStatus.OK);
     }
 
     @PostMapping("")
-    public ResponseEntity<ProductRequestDto> addProduct(@RequestBody @Valid ProductRequestDto product) {
-        ProductRequestDto createdProduct = service.add(product);
-        if (product.getName().isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ProductResponseDto> addProduct(@RequestBody @Valid ProductRequestDto productRequestDto) {
+        ProductResponseDto createdProduct = service.addProduct(productRequestDto);
+        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductResponseDto> updateProduct(@PathVariable Long id, @RequestBody @Valid ProductUpdateDto productUpdateDto) {
+        ProductResponseDto updatedProduct = service.updateProduct(id, productUpdateDto);
+        return updatedProduct != null ? new ResponseEntity<>(updatedProduct, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteProduct(@RequestParam Long id) {
+        if (id == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(createdProduct,HttpStatus.CREATED);
-    }
-
-    @PutMapping("/productId")
-    public ResponseEntity<ProductRequestDto> updateProduct(@RequestParam Long id,@RequestBody @Valid ProductRequestDto product) {
-        ProductResponseDto updatedProduct = service.updateProduct(id, product);
-       return new ResponseEntity<>(updatedProduct !=null ? HttpStatus.OK : HttpStatus.NOT_FOUND);
-    }
-
-    @DeleteMapping("")
-    public ResponseEntity<?> deleteById(@RequestParam Long id) {
+        service.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

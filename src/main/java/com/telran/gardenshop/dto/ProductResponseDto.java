@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.domain.Sort;
 
 import java.math.BigDecimal;
 
@@ -14,13 +15,15 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductResponseDto {
-
-    private String categoryId;
-    private BigDecimal minPrice;
-    private BigDecimal maxPrice;
-    private BigDecimal discountPrice;
+private Long id;
+private String name;
+private String description;
+  private BigDecimal price;
+  private String categoryId;
+  private String imageUrl;
+  private BigDecimal discountPrice;
 
 }
-//category, minPrice, maxPrice, discount, sort
+
 
 
