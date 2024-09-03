@@ -4,12 +4,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartDto {
 
-        private String productId;
-        private Integer quantity;
+        private Long id;
+        private Set<CartItemDto> items;
+
 }

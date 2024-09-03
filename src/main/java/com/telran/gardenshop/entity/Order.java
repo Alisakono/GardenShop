@@ -9,7 +9,9 @@ import lombok.Setter;
 import org.aspectj.weaver.patterns.Pointcut;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -30,14 +32,12 @@ public class Order {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
-    private List<OrderItem> orderItems;
-    @ManyToOne(fetch = FetchType.LAZY)
+   /* @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
+    private Set<CartItem> items;*/
+   @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "email")
     private User user;
 
-   /* @OneToMany(fetch = FetchType.LAZY,mappedBy = "cart_item")
-    private List<CartItem> cartItems;*/
 
 
 }

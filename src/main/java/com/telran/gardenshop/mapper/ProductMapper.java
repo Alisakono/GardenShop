@@ -2,7 +2,6 @@ package com.telran.gardenshop.mapper;
 
 import com.telran.gardenshop.dto.ProductRequestDto;
 import com.telran.gardenshop.dto.ProductResponseDto;
-import com.telran.gardenshop.dto.ProductUpdateDto;
 import com.telran.gardenshop.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -36,7 +35,7 @@ public interface ProductMapper {
 
     ProductResponseDto entityToResponseDto(String category, BigDecimal minPrice, BigDecimal maxPrice, Boolean discount, Sort sort);
 
-    Product dtoToEntity(Long id, ProductUpdateDto productUpdateDto);
+    Product dtoToEntity(Long id, ProductRequestDto productRequestDto);
 
 
     ProductRequestDto entityToRequestDto(Optional<Product> product, HttpStatus httpStatus);

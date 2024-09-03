@@ -3,15 +3,16 @@ package com.telran.gardenshop.controller;
 import com.telran.gardenshop.dto.ProductRequestDto;
 import com.telran.gardenshop.dto.ProductResponseDto;
 
-import com.telran.gardenshop.dto.ProductUpdateDto;
 import com.telran.gardenshop.entity.Product;
 
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -37,15 +38,11 @@ public class ProductController {
     }
 
 
-
     @GetMapping("/{id}")
     @Operation(summary = "Retrieve product by id")
     public ResponseEntity<Product> getById(@PathVariable Long id) {
         Optional<Product> product = service.getById(id);
-        if (product.isPresent()) {
-            return new ResponseEntity<>(product.get(), HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return product.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 
     }
 
@@ -54,27 +51,42 @@ public class ProductController {
             @RequestParam(required = false) String category,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
-            @RequestParam(required = false) Boolean discount) {
+            @RequestParam(required = false) Boolean discount
+            ) {
         List<ProductResponseDto> productsByFilters = service.getProductsByFilters(category, minPrice, maxPrice, discount);
         return new ResponseEntity<>(productsByFilters, HttpStatus.OK);
 
     }
+
     @PostMapping("")
-    public ResponseEntity<ProductResponseDto> addProduct(@RequestBody @Valid ProductRequestDto productRequestDto) {
-        ProductResponseDto createdProduct = service.addProduct(productRequestDto);
-        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
-    }
+    public ResponseEntity<Void> addProduct(@RequestBody @Validated ProductRequestDto productRequestDto) {
+        if (productRequestDto == null || productRequestDto.getPrice() == null || productRequestDto.getPrice().compareTo(BigDecimal.ZERO) < 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        try {
+            service.addProduct(productRequestDto);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductResponseDto> updateProduct(@PathVariable Long id, @RequestBody @Valid ProductUpdateDto productUpdateDto) {
-        ProductResponseDto updatedProduct = service.updateProduct(id, productUpdateDto);
-        return updatedProduct != null ? new ResponseEntity<>(updatedProduct, HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+  @PutMapping("/{id}")
+  public ResponseEntity<ProductRequestDto> updateProduct(@PathVariable Long id,@RequestBody @Validated ProductRequestDto productRequestDto) {
+     try {
+        ProductRequestDto updatedProduct = service.updateProduct(id, productRequestDto);
+        return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+    } catch (RuntimeException e) {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
 
     @DeleteMapping("/{id}")
 
-    public ResponseEntity<?> deleteProduct(@RequestParam Long id) {
+    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
         if (id == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

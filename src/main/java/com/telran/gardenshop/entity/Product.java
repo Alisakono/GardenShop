@@ -2,7 +2,9 @@ package com.telran.gardenshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +14,9 @@ import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Objects;
 
 @Setter
@@ -32,13 +37,24 @@ public class Product {
     private String description;
     private String imageUrl;
     private BigDecimal discountPrice;
+    @Column(name = "created_at",nullable = false)
     private Timestamp createdAt;
     private Timestamp updatedAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id",nullable = false)
     @JsonBackReference
     private Category category;
 
+    @PrePersist
+    @PreUpdate
+    public void updateTimestamps() {
+        Timestamp now = Timestamp.from(LocalDateTime.now().toInstant(ZoneOffset.UTC));
+        if (this.createdAt == null) {
+            this.createdAt = now;
+        }
+        this.updatedAt = now;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -52,4 +68,7 @@ public class Product {
     public int hashCode() {
         return Objects.hash(id, name);
     }
+
+
+
 }
