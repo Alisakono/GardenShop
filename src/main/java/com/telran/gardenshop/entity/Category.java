@@ -1,5 +1,6 @@
 package com.telran.gardenshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,8 +23,7 @@ public class Category {
     private String categoryId;
     @Column(name = "category_name")
     private String categoryName;
-    @OneToMany(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "product_id")
+    @OneToMany(mappedBy = "category",orphanRemoval = false)
     private List<Product> products;
 
     @Override

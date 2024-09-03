@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Getter
 @Setter
@@ -20,5 +24,12 @@ public class Cart {
 
     @JoinColumn(name ="email")
     @OneToOne
-    private User email;
+    private User user;
+
+  @OneToMany(mappedBy = "cart",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private Set<CartItem> items = new HashSet<>();
+
+
+
+
 }

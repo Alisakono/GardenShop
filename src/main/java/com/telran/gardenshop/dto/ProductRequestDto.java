@@ -1,6 +1,7 @@
 package com.telran.gardenshop.dto;
 
-import com.telran.gardenshop.entity.Category;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,16 +15,17 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductRequestDto {
-
-    @NotBlank
+    @NotNull(message = "Name is required")
+    @Size(max = 45, message = "Name cannot exceed 45 characters")
     private String name;
-    @NotBlank
-    private String description;
-    @NotBlank
-    private BigDecimal price;
-    @NotBlank
-    private String categoryId;
-    @NotBlank
-    private String imageUrl;
 
+    private String description;
+
+    @NotNull(message = "Price is required")
+    private BigDecimal price;
+
+    @NotNull(message = "Category ID is required")
+    private Long categoryId;
+
+    private String imageUrl;
 }

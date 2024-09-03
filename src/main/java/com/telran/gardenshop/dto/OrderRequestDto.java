@@ -1,5 +1,6 @@
 package com.telran.gardenshop.dto;
 
+import com.telran.gardenshop.entity.Product;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

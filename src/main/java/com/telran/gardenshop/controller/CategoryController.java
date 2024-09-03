@@ -1,7 +1,6 @@
 package com.telran.gardenshop.controller;
 
 import com.telran.gardenshop.dto.CategoryDto;
-import com.telran.gardenshop.entity.Category;
 import com.telran.gardenshop.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,27 +35,27 @@ public class CategoryController {
 
     @PostMapping
     @Operation(summary = "Create categories")
-    public ResponseEntity<CategoryDto> createCategory(@RequestBody @Valid CategoryDto category) {
-        CategoryDto add = service.add(category);
-        return new ResponseEntity<>(add, HttpStatus.CREATED);
+    public ResponseEntity<Void> createCategory(@RequestBody @Valid CategoryDto category) {
+        service.addCategory(category);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-   @PutMapping
+    @PutMapping
     @Operation(summary = "Update categories")
-    public ResponseEntity<CategoryDto> updateCategory( @RequestBody @Valid CategoryDto category) {
+    public ResponseEntity<CategoryDto> updateCategory(@RequestBody @Valid CategoryDto category) {
         CategoryDto updatedCategory = service.updateCategory(category);
         return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
     }
 
-
     @DeleteMapping("/{category_id}")
-    @Operation(summary = "Delete categories")
-    public ResponseEntity<?> deleteCategory(@PathVariable("category_id") Category categoryId) {
-        if (categoryId == null) {
+    @Operation(summary = "Delete category by ID")
+    public ResponseEntity<Void> deleteCategory(@PathVariable("category_id") String categoryId) {
+        boolean isRemoved = service.remove(categoryId);
+
+        if (isRemoved) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        service.remove(categoryId);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }

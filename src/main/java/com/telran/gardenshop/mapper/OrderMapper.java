@@ -13,7 +13,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
     Order dtoToEntity(OrderRequestDto orderRequestDto);
-    @Mapping(source = "orderItems", target = "items")
+   // @Mapping(source = "cart.cartItem", target = "items")
     OrderResponseDto entityToResponseDto(Order order);
 
 

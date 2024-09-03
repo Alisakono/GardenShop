@@ -1,5 +1,6 @@
 package com.telran.gardenshop.dto;
 
+import com.telran.gardenshop.entity.CartItem;
 import jakarta.transaction.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class OrderResponseDto {
     private Long id;
-    private List<CartDto> items = new ArrayList<>();
+    private List<CartDto> items;
     private String deliveryAddress;
     private String deliveryMethod;
     private String contactPhone;
