@@ -1,5 +1,6 @@
 package com.telran.gardenshop.service;
 
+import com.telran.gardenshop.dto.ProductDto;
 import com.telran.gardenshop.dto.ProductRequestDto;
 import com.telran.gardenshop.dto.ProductResponseDto;
 
@@ -12,14 +13,11 @@ import com.telran.gardenshop.repository.ProductRepository;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -79,8 +77,10 @@ public class ProductService {
         repository.deleteById(id);
     }
 
-    public Optional<Product> getById(Long id) {
-       return repository.findById(id);
+    public ProductDto getById(Long id) {
+        Optional<Product> product = repository.findById(id);
+        return product.map(productMapper::entityToDto).orElse(null);
+
     }
 
     public List<ProductResponseDto> getProductsByFilters(String categoryId, BigDecimal minPrice, BigDecimal maxPrice, Boolean discount) {

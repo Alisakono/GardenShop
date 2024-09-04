@@ -1,4 +1,5 @@
 package com.telran.gardenshop.controller;
+
 import com.telran.gardenshop.dto.CartDto;
 import com.telran.gardenshop.dto.ItemRequest;
 import com.telran.gardenshop.entity.User;
@@ -40,9 +41,9 @@ public class CartController {
             CartDto cartDto = cartService.addProductToCart(itemRequest, email);
             return new ResponseEntity<>(cartDto, HttpStatus.OK);
         } catch (Exception e) {
-
-            System.err.println("Error adding product to cart: " + e.getMessage());
+            
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-    }}
+    }
+}

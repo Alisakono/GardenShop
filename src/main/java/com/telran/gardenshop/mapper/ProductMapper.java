@@ -1,5 +1,6 @@
 package com.telran.gardenshop.mapper;
 
+import com.telran.gardenshop.dto.ProductDto;
 import com.telran.gardenshop.dto.ProductRequestDto;
 import com.telran.gardenshop.dto.ProductResponseDto;
 import com.telran.gardenshop.entity.Product;
@@ -20,6 +21,15 @@ public interface ProductMapper {
     ProductResponseDto entityToResponseDto(Product product);
 
     ProductResponseDto entityToResponseDto(ProductRequestDto products);
+     default ProductDto entityToDto(Product product) {
+        ProductDto dto = new ProductDto();
+        dto.setProductId(String.valueOf(product.getId()));
+        dto.setName(product.getName());
+        dto.setDescription(product.getDescription());
+        dto.setPrice(product.getPrice());
+        return dto;
+    }
+
 
 
     @Mapping(source = "categoryId", target = "category.categoryId")
