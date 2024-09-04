@@ -81,3 +81,6 @@ VALUES ('1','2',5,12.99),
          ('1','3',5,12.99),
          ('1','1',5,12.99),
          ('1','4',5,12.99);
+
+insert into favorites(product_id,email)
+VALUES (1,'alise@example.com')
