@@ -1,8 +1,6 @@
 package com.telran.gardenshop.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,13 +11,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "favorites")
 public class Favorite {
     @Id
-    private Long id;
-    @ManyToOne
-    private User user;
-    @ManyToOne
-    private Product product;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "favorite_id")
+    private Long favoriteId;
 
+    @ManyToOne
+    @JoinColumn(name = "email", referencedColumnName = "email")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "product_id")
+    private Product product;
 
 }
