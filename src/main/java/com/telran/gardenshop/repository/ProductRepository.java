@@ -8,18 +8,19 @@ import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.List;
+
 
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query( "SELECT p FROM Product p WHERE "
+    @Query(value = "SELECT p FROM Product p WHERE "
             + "(:hasCategory = FALSE OR p.category.categoryId = :category) AND "
             + "(:minPrice IS NULL OR p.price >= :minPrice) AND "
             + "(:maxPrice IS NULL OR p.price <= :maxPrice) AND "
             + "(:discount IS NULL OR (p.discountPrice IS NOT NULL AND :discount = TRUE) OR (p.discountPrice IS NULL AND :discount = FALSE)) ")
+
     List<ProductRequestDto> findProductsByFilters();
 
 

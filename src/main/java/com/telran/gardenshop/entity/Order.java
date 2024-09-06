@@ -1,15 +1,15 @@
 package com.telran.gardenshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import liquibase.logging.mdc.customobjects.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.aspectj.weaver.patterns.Pointcut;
 
 import java.sql.Timestamp;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -29,14 +29,15 @@ public class Order {
     private String deliveryMethod;
     @Column(name = "status")
     private String status;
+    @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
+    @Column(name = "updated_at", nullable = false)
     private Timestamp updatedAt;
-
-   /* @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
-    private Set<CartItem> items;*/
    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "email")
     private User user;
+   @OneToMany
+    private Set<OrderItem> items;
 
 
 
