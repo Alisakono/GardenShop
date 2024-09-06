@@ -1,14 +1,15 @@
 package com.telran.gardenshop.controller;
 
-import com.telran.gardenshop.dto.ProductDetailDto;
 import com.telran.gardenshop.dto.ProductDto;
 import com.telran.gardenshop.dto.ProductRequestDto;
 import com.telran.gardenshop.dto.ProductResponseDto;
-import com.telran.gardenshop.entity.Product;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,7 +18,6 @@ import com.telran.gardenshop.service.ProductService;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
@@ -31,9 +31,8 @@ public class ProductController {
     @Autowired
     public ProductController(ProductService service) {
         this.service = service;
+
     }
-
-
     @GetMapping("/{id}")
     @Operation(summary = "Retrieve product by id")
     public ResponseEntity<ProductDto> getById(@PathVariable Long id) {
@@ -47,16 +46,21 @@ public class ProductController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<ProductResponseDto>> getProductsByFilters(
+    public List<ProductResponseDto> getProductsByFilters(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
-            @RequestParam(required = false) Boolean discount
-    ) {
-        List<ProductResponseDto> productsByFilters = service.getProductsByFilters(category, minPrice, maxPrice, discount);
-        return new ResponseEntity<>(productsByFilters, HttpStatus.OK);
+            @RequestParam(required = false) Boolean discount,
+            @SortDefault(sort = "name",direction = Sort.Direction.DESC)  Pageable pageable
+           )
+            {
 
-    }
+        List<ProductResponseDto> productsByFilters = service.getProductsByFilters(
+                pageable,category, minPrice, maxPrice, discount);
+                service.getProductsByFilters(pageable,category,minPrice,maxPrice,discount);
+                return new ResponseEntity<>(productsByFilters,HttpStatus.OK).getBody();
+
+            }
 
     @PostMapping("")
     public ResponseEntity<Void> addProduct(@RequestBody @Validated ProductRequestDto productRequestDto) {
@@ -96,4 +100,5 @@ public class ProductController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }

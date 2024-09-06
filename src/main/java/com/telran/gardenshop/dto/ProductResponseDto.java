@@ -24,7 +24,6 @@ private String description;
   private String imageUrl;
   private BigDecimal discountPrice;
 
-
 }
 
 

@@ -22,4 +22,7 @@ public class User {
     private String phoneNumber;
     private String passwordHash;
     private String role;
+
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
 }
