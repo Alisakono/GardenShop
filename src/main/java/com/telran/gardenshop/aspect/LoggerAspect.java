@@ -19,6 +19,7 @@ public class LoggerAspect {
     @Pointcut("within(com.telran.gardenshop.controller..*) || within(com.telran.gardenshop.service..*)")
     public void applicationPackagePointcut() {
     }
+
     @Before("applicationPackagePointcut()")
     public void beforeAdvice(JoinPoint joinPoint) {
         logger.debug("Method {} from Class {} started with args:{}",

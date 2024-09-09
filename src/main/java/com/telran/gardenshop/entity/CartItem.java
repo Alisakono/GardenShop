@@ -22,7 +22,6 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cart_items_id")
     private Long id;
-    @NotNull
     @Column(name = "quantity")
     private Integer quantity;
 

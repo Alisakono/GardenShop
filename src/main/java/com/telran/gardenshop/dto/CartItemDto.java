@@ -7,6 +7,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,8 +20,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 
 public class CartItemDto {
+    @NotNull
     private String productName;
-
+    @NotNull
     private Integer quantity;
 
 
