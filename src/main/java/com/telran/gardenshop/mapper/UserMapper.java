@@ -5,7 +5,7 @@ import com.telran.gardenshop.dto.UserDto;
 
 import com.telran.gardenshop.entity.User;
 import org.mapstruct.Mapper;
-import java.util.List;
+
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
@@ -13,5 +13,4 @@ public interface UserMapper {
 
     UserDto entityToDto(User user);
 
-    List<UserDto> entityListToDto(List<User> users);
 }

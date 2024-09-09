@@ -1,5 +1,6 @@
 package com.telran.gardenshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.transaction.Status;
 import liquibase.change.ChangeStatus;
@@ -8,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.lang.reflect.Type;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,14 +18,19 @@ import lombok.Setter;
 @Entity
 @Table(name = "users")
 public class User {
+    @Column(name = "name")
     private String name;
     @Id
     @Column(name = "email")
     private String email;
+    @Column(name = "phone_number")
     private String phoneNumber;
+    @Column(name = "password_hash")
     private String passwordHash;
+
     private String role;
 
     @OneToOne(mappedBy = "user")
     private Cart cart;
+
 }
