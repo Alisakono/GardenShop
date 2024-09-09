@@ -2,11 +2,11 @@
 -- changeset Konovalov:002
 
 insert into users( name,email,phone_number,password_hash,role)
-values  ('Alise Smith', 'alise@example.com',1234567890,'hash_password1','ADMIN'),
-        ('Bob Johnson', 'bob@example.com', 2345678901,'hash_password2', 'MANAGER'),
-        ('Charlie Davis', 'charlie@example.com', 3456789012,'hash_password3', 'USER'),
-        ('Diana King', 'diana@example.com', 4567890123,'hash_password4', 'USER'),
-        ('Ethan Brown', 'ethan@example.com', 5678901234,'hash_password5', 'MANAGER');
+values  ('Alise Smith', 'alise@example.com',1234567890,'$2a$10$iNZkAmiHLhedzjkQxz6onuZ96QQIA4ixdleFOnUZVBhpNFDLYo45.','ADMIN'),
+        ('Bob Johnson', 'bob@example.com', 2345678901,'$2a$10$iNZkAmiHLhedzjkQxz6onuZ96QQIA4ixdleFOnUZVBhpNFDLYo45.', 'MANAGER'),
+        ('Charlie Davis', 'charlie@example.com', 3456789012,'$2a$10$iNZkAmiHLhedzjkQxz6onuZ96QQIA4ixdleFOnUZVBhpNFDLYo45.', 'USER'),
+        ('Diana King', 'diana@example.com', 4567890123,'$2a$10$iNZkAmiHLhedzjkQxz6onuZ96QQIA4ixdleFOnUZVBhpNFDLYo45.', 'USER'),
+        ('Ethan Brown', 'ethan@example.com', 5678901234,'$2a$10$iNZkAmiHLhedzjkQxz6onuZ96QQIA4ixdleFOnUZVBhpNFDLYo45.', 'MANAGER');
 
 insert into categories(category_id,category_name)
 values ('1','Fertilizer'),
