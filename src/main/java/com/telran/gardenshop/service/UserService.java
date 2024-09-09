@@ -24,7 +24,9 @@ public class UserService {
     }
 
     public UserDto addUser(UserDto userDto) {
-        User user = userMapper.dtoToEntity(userDto);
+        User user = new User();
+        user.setEmail(userDto.getEmail());
+        user = userMapper.dtoToEntity(userDto);
         User savedUser = userRepository.save(user);
         return userMapper.entityToDto(savedUser);
     }

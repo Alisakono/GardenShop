@@ -3,6 +3,7 @@ package com.telran.gardenshop.controller;
 import com.telran.gardenshop.dto.ProductDto;
 import com.telran.gardenshop.dto.ProductRequestDto;
 import com.telran.gardenshop.dto.ProductResponseDto;
+import com.telran.gardenshop.entity.Product;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ public class ProductController {
         this.service = service;
 
     }
+
     @GetMapping("/{id}")
     @Operation(summary = "Retrieve product by id")
     public ResponseEntity<ProductDto> getById(@PathVariable Long id) {
@@ -51,16 +53,16 @@ public class ProductController {
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
             @RequestParam(required = false) Boolean discount,
-            @SortDefault(sort = "name",direction = Sort.Direction.DESC)  Pageable pageable
-           )
-            {
+            @RequestParam(required = false)
+            @SortDefault(sort = "name", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
 
         List<ProductResponseDto> productsByFilters = service.getProductsByFilters(
-                pageable,category, minPrice, maxPrice, discount);
-                service.getProductsByFilters(pageable,category,minPrice,maxPrice,discount);
-                return new ResponseEntity<>(productsByFilters,HttpStatus.OK).getBody();
+                pageable, category, minPrice, maxPrice, discount);
+        service.getProductsByFilters(pageable, category, minPrice, maxPrice, discount);
+        return new ResponseEntity<>(productsByFilters, HttpStatus.OK).getBody();
 
-            }
+    }
 
     @PostMapping("")
     public ResponseEntity<Void> addProduct(@RequestBody @Validated ProductRequestDto productRequestDto) {
@@ -89,16 +91,17 @@ public class ProductController {
         }
     }
 
-    @DeleteMapping("/{id}")
-
-    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
-        if (id == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Product> deleteProduct(@PathVariable String id) {
+        if (id == null || id.trim().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        boolean isRemoved = service.remove(id);
+        if (isRemoved) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-        service.remove(id);
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return null;
     }
-
 }

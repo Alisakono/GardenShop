@@ -1,6 +1,7 @@
 package com.telran.gardenshop.controller;
 
 import com.telran.gardenshop.dto.CategoryDto;
+import com.telran.gardenshop.entity.Category;
 import com.telran.gardenshop.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,8 +43,8 @@ public class CategoryController {
 
     @PutMapping
     @Operation(summary = "Update categories")
-    public ResponseEntity<CategoryDto> updateCategory(@RequestBody @Valid CategoryDto category) {
-        CategoryDto updatedCategory = service.updateCategory(category);
+    public ResponseEntity<Category> updateCategory(@RequestBody @Valid CategoryDto category) {
+        Category updatedCategory = service.updateCategory(category);
         return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
     }
 

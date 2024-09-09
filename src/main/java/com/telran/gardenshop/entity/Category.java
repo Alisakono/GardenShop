@@ -23,7 +23,7 @@ public class Category {
     private String categoryId;
     @Column(name = "category_name")
     private String categoryName;
-    @OneToMany(mappedBy = "category",orphanRemoval = false)
+    @OneToMany(mappedBy = "category",cascade = CascadeType.DETACH)
     private List<Product> products;
 
     @Override

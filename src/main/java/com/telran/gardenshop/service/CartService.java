@@ -15,7 +15,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
@@ -28,6 +27,8 @@ public class CartService {
     private final ProductRepository repository;
     private final CartRepository cartRepository;
     private final CartMapper cartMapper;
+
+
 
 
     @Autowired
@@ -43,7 +44,7 @@ public class CartService {
         Product product = repository.findById(Long.valueOf(itemRequest.getProductId()))
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        Optional<User> user = userRepository.findUsersByEmail(email);
+        Optional<User> user = Optional.ofNullable(userRepository.findUsersByEmail(email));
 
         Cart cart = user.get().getCart();
         if (cart == null) {
@@ -74,6 +75,11 @@ public class CartService {
         return cartMapper.entityToDto(savedCart);
     }
 
+    public CartDto getCartByEmail(String email) {
+        User user = userRepository.findUsersByEmail(email);
+        Cart cart = cartRepository.findByUser(user);
+        return cartMapper.entityToDto(cart);
+    }
 }
 
     

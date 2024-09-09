@@ -5,6 +5,7 @@ import com.telran.gardenshop.entity.Order;
 import com.telran.gardenshop.entity.OrderItem;
 import com.telran.gardenshop.entity.Product;
 import org.mapstruct.Mapper;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 import java.util.Set;
@@ -16,7 +17,7 @@ public interface OrderMapper {
    // @Mapping(source = "cart.cartItem", target = "items")
 
 
-    List<OrderItem> mapItemsToEntities(List<CartDto> orderItems);
+    //List<OrderItem> mapItemsToEntities(List<CartDto> orderItems);
 
     OrderResponseDto toResponseDto(Order order);
 
@@ -26,4 +27,11 @@ public interface OrderMapper {
     OrderRequestDto entityToRequestDto(Order savedOrder);
 
 
-   }
+    OrderResponseDto entityToResponseDto(Order order);
+
+    Order entityToResponseDto(OrderRequestDto orderRequestDto, HttpStatus httpStatus);
+
+    OrderRequestDto entityToRequestDto(OrderRequestDto createdOrder, HttpStatus httpStatus);
+
+    OrderRequestDto entityToRequestDto(OrderRequestDto orderRequestDto);
+}

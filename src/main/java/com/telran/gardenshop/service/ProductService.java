@@ -13,7 +13,6 @@ import com.telran.gardenshop.repository.ProductRepository;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +42,6 @@ public class ProductService {
     public void addProduct(ProductRequestDto productRequestDto) {
         Category categoryId = categoryRepository.findById(String.valueOf(productRequestDto.getCategoryId()))
                 .orElseThrow(() -> new RuntimeException("Category not found"));
-
         Product product = new Product();
         product.setName(productRequestDto.getName());
         product.setDescription(productRequestDto.getDescription());
@@ -73,10 +71,6 @@ public class ProductService {
         return productMapper.entityToRequestDto(updatedProduct);
     }
 
-    public void remove(Long id) {
-        repository.deleteById(id);
-    }
-
     public ProductDto getById(Long id) {
         Optional<Product> product = repository.findById(id);
         return product.map(productMapper::entityToDto).orElse(null);
@@ -95,7 +89,10 @@ public class ProductService {
        return filteredProducts;
 }
 
-
+    public boolean remove(String productId) {
+        repository.deleteById(Long.valueOf(productId));
+        return false;
+    }
 }
 
 
