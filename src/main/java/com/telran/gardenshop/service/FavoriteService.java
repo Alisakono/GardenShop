@@ -33,8 +33,8 @@ public class FavoriteService {
 
     public void addProductToFavorites(String email, String productId) {
 
-        User user = (User) userRepository.findUsersByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Benutzer mit der E-Mail " + email + " nicht gefunden"));
+        User user = userRepository.findUsersByEmail(email);
+        user.setEmail(email);
 
         Product product = productRepository.findById(Long.valueOf(productId))
                 .orElseThrow(() -> new IllegalArgumentException("Produkt mit der ID " + productId + " nicht gefunden"));

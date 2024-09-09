@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -31,13 +32,16 @@ public class CategoryService {
         category.setCategoryName(categoryDto.getCategoryName());
         repository.save(category);
     }
+    public Category updateCategory(CategoryDto categoryDto) {
+       Category category = new Category();
+       if (categoryDto.getCategoryId()==null){
+           category.setCategoryId(UUID.randomUUID().toString());
+       }else {
+           category.setCategoryId(categoryDto.getCategoryId());
+       }
+       category.setCategoryName(categoryDto.getCategoryName());
+       return repository.save(category);
 
-    public CategoryDto updateCategory(CategoryDto categoryDto) {
-        repository.findById(categoryDto.getCategoryId());
-        categoryDto.setCategoryId(categoryDto.getCategoryId());
-        categoryDto.setCategoryName(categoryDto.getCategoryName());
-        Category updatedCategory = repository.save(new Category());
-        return categoryMapper.entityToDto(updatedCategory);
 
     }
 

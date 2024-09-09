@@ -28,13 +28,9 @@ public class User {
     @Column(name = "password_hash")
     private String passwordHash;
 
-    public Cart getCart() {
-        return null;
-    }
-    //@Enumerated(EnumType.STRING)
-    //@Column(name = "role")
-    //private String role;
-   //@OneToOne(cascade = CascadeType.DETACH)
-   //@JoinColumn(name = "cart_id")
-   //private Cart cart;
+    private String role;
+
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
+
 }

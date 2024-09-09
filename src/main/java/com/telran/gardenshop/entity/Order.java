@@ -1,15 +1,18 @@
 package com.telran.gardenshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import liquibase.logging.mdc.customobjects.Status;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.aspectj.weaver.patterns.Pointcut;
 
 import java.sql.Timestamp;
-import java.util.Collection;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -24,19 +27,36 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_id")
     private Long id;
-    private String deliveryAddress;
-    private String contactPhone;
-    private String deliveryMethod;
-    @Column(name = "status")
-    private String status;
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
 
-   /* @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
-    private Set<CartItem> items;*/
-   @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull(message = "Delivery address is required")
+    private String deliveryAddress;
+
+    private String contactPhone;
+
+    private String deliveryMethod;
+    @Column(name = "status",nullable = false)
+    private String status="PENDING";
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Timestamp createdAt;
+    @Column(name = "updated_at", nullable = false)
+    private Timestamp updatedAt;
+    @OneToMany
+    private Set<OrderItem> items;
+    @ManyToOne
     @JoinColumn(name = "email")
-    private User user;
+    private User users;
+
+    @PrePersist
+    @PreUpdate
+    public void updateTimestamps() {
+        Timestamp now = Timestamp.from(LocalDateTime.now().toInstant(ZoneOffset.UTC));
+        if (this.createdAt == null) {
+            this.createdAt = now;
+        }
+        this.updatedAt = now;
+    }
+
+
 
 
 

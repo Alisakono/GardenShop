@@ -30,9 +30,11 @@ public class UserService {
     public UserDto addUser(UserDto userDto) {
         User user = new User();
         user.setEmail(userDto.getEmail());
+
         user.setName(userDto.getName());
         user.setPasswordHash(userDto.getPasswordHash());
         user.setPhoneNumber(userDto.getPhoneNumber());
+
         User savedUser = userRepository.save(user);
 
         return userMapper.entityToDto(savedUser);

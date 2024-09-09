@@ -131,6 +131,12 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.5</version>
             <scope>runtime</scope>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>24.1.0</version>
+            <scope>compile</scope>
+
         </dependency>
     </dependencies>
 
@@ -177,4 +183,8 @@
         </plugins>
     </build>
 
+
 </project>
+
+
+
