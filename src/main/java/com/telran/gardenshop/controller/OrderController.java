@@ -47,10 +47,5 @@ public class OrderController {
        return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{orderId}/user")
-    public ResponseEntity<Void> addOrderToUser(@PathVariable Long orderId, @RequestParam String email) {
-        orderService.addOrderToUser(orderId, email);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 }
 

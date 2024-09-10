@@ -1,0 +1,25 @@
+Index: src/main/java/com/telran/gardenshop/config/SwaggerConfig.java
+===================================================================
+diff --git a/src/main/java/com/telran/gardenshop/config/SwaggerConfig.java b/src/main/java/com/telran/gardenshop/config/SwaggerConfig.java
+deleted file mode 100644
+--- a/src/main/java/com/telran/gardenshop/config/SwaggerConfig.java	(revision 5a3652c1901c5d758310ba784cbd1d9b1e41681e)
++++ /dev/null	(revision 5a3652c1901c5d758310ba784cbd1d9b1e41681e)
+@@ -1,18 +0,0 @@
+-package com.telran.gardenshop.config;
+-
+-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+-import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+-import io.swagger.v3.oas.annotations.security.SecurityScheme;
+-
+-@OpenAPIDefinition(
+-        security = @SecurityRequirement(name = "JWT")
+-)
+-@SecurityScheme(
+-        name = "JWT",
+-        type = SecuritySchemeType.HTTP,
+-        bearerFormat = "JWT",
+-        scheme = "bearer"
+-)
+-public class SwaggerConfig {
+-}

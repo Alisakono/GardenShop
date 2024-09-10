@@ -49,12 +49,5 @@ public class OrderService {
        orderRepository.save(new Order());
         return order;
     }
-    public void addOrderToUser(Long orderId, String email) {
-        User user = userRepository.findUsersByEmail(email);
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new RuntimeException("Order not found"));
 
-        order.setUsers(user);
-        orderRepository.save(order);
-
-}}
+}
