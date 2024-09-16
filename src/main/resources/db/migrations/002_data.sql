@@ -77,10 +77,8 @@ insert into orders(email, created_at, delivery_address, contact_phone, delivery_
 VALUES ('alise@example.com',NOW(),'Berlin Mapper Str.20',1234567890,'courier','pending',NOW());
 
 insert into order_items(order_id, product_id, quantity, price_at_purchase)
-VALUES ('1','2',5,12.99),
-         ('1','3',5,12.99),
-         ('1','1',5,12.99),
-         ('1','4',5,12.99);
+VALUES ('1','2',5,12.99);
+
 
 insert into favorites(product_id,email)
 VALUES (1,'alise@example.com')

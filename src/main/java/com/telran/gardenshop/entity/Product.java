@@ -40,7 +40,6 @@ public class Product {
     @Column(name = "created_at",nullable = false)
     private Timestamp createdAt;
     private Timestamp updatedAt;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id",nullable = false)
     @JsonBackReference

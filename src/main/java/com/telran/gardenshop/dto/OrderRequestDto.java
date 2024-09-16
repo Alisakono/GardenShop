@@ -18,9 +18,13 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderRequestDto {
-    @NotBlank
-   private List<OrderItem> items;
+    private List<OrderItemDto> items;
+    @NotBlank(message = "Delivery address is required")
     private String deliveryAddress;
-    @NotBlank
+
+    @NotBlank(message = "Delivery method is required")
     private String deliveryMethod;
+
+
+
 }

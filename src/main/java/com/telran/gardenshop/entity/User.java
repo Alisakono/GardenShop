@@ -31,6 +31,7 @@ public class User {
     private String role;
 
     @OneToOne(mappedBy = "user")
+    @JsonBackReference
     private Cart cart;
 
 }

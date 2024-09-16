@@ -1,19 +1,13 @@
 package com.telran.gardenshop.dto;
 
-import com.telran.gardenshop.entity.CartItem;
-import com.telran.gardenshop.entity.OrderItem;
-import jakarta.transaction.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.domain.Sort;
 
-import java.sql.Timestamp;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -21,11 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class OrderResponseDto {
     private Long orderId;
-    List<OrderItem> items;
-    private String productId;
-    private Integer quantity;
+   private List<OrderItemDto> items;
     private String deliveryAddress;
     private String deliveryMethod;
-    private LocalDateTime createdAt;
-
 }
