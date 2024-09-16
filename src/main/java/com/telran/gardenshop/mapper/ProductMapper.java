@@ -20,14 +20,10 @@ public interface ProductMapper {
     ProductResponseDto entityToResponseDto(Product product);
 
     ProductResponseDto entityToResponseDto(ProductRequestDto products);
-     default ProductDto entityToDto(Product product) {
-        ProductDto dto = new ProductDto();
-        dto.setProductId(String.valueOf(product.getId()));
-        dto.setName(product.getName());
-        dto.setDescription(product.getDescription());
-        dto.setPrice(product.getPrice());
-        return dto;
-    }
+      ProductDto entityToDto(Product product);
+      Product dtoToEntity(ProductDto productDto);
+
+
     @Mapping(source = "categoryId", target = "category.categoryId")
     List<Product> toResponseDtoList(List<Product> products);
 

@@ -27,7 +27,7 @@ public class CartController {
     private final CartService cartService;
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
-   
+
 
     @Autowired
     public CartController(CartService cartService, UserRepository userRepository, CartRepository cartRepository) {
@@ -35,6 +35,7 @@ public class CartController {
         this.userRepository = userRepository;
         this.cartRepository = cartRepository;
     }
+
     @GetMapping
     public ResponseEntity<CartDto> getCart(@RequestParam String email) {
         Optional<User> userOptional = Optional.ofNullable(userRepository.findUsersByEmail(email));
@@ -42,23 +43,19 @@ public class CartController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             CartDto cartDto = cartService.getCartByEmail(email);
-            return new ResponseEntity<>(cartDto,HttpStatus.OK);
-        }}
+            return new ResponseEntity<>(cartDto, HttpStatus.OK);
+        }
+    }
 
     @PostMapping("")
     public ResponseEntity<CartDto> addProductToCart(@RequestBody ItemRequest itemRequest, @RequestParam String email) {
         Optional<User> userOptional = Optional.ofNullable(userRepository.findUsersByEmail(email));
         if (userOptional.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        try {
+        } else {
             CartDto cartDto = cartService.addProductToCart(itemRequest, email);
             return new ResponseEntity<>(cartDto, HttpStatus.OK);
-        } catch (Exception e) {
-            
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
 
+        }
     }
 }

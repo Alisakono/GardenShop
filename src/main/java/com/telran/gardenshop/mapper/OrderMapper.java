@@ -3,35 +3,46 @@ package com.telran.gardenshop.mapper;
 import com.telran.gardenshop.dto.*;
 import com.telran.gardenshop.entity.Order;
 import com.telran.gardenshop.entity.OrderItem;
-import com.telran.gardenshop.entity.Product;
 import org.mapstruct.Mapper;
-import org.springframework.http.HttpStatus;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
+
+    default OrderResponseDto entityToResponseDto(Order order) {
+        return new OrderResponseDto();
+    }
+
+
+    @Mapping(source = "deliveryAddress", target = "deliveryAddress")
+    @Mapping(source = "deliveryMethod", target = "deliveryMethod")
     Order dtoToEntity(OrderRequestDto orderRequestDto);
-   // @Mapping(source = "cart.cartItem", target = "items")
 
+    OrderRequestDto entityToRequestDto(Order order);
+@Mapping(source = "productId",target = "product.id")
+    OrderItem toOrderItem(OrderItemDto itemDto);
 
-    //List<OrderItem> mapItemsToEntities(List<CartDto> orderItems);
+    List<OrderItemDto> toOrderItemDtoList(List<OrderItem> items);
 
-    OrderResponseDto toResponseDto(Order order);
+    @Named("calculateTotalPrice")
+    default BigDecimal calculateTotalPrice(List<OrderItem> items) {
+        return items.stream()
+                .map(OrderItem::getPriceAtPurchase)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-    OrderRequestDto entityToDto(OrderRequestDto savedOrder);
+    }
 
+    @Mapping(source = "id", target = "orderId")
+    OrderResponseDto toOrderResponseDto(Order order);
+    @Mapping(source = "product.id",target = "productId")
+    OrderItemDto toOrderItemDto(OrderItem item);
 
-    OrderRequestDto entityToRequestDto(Order savedOrder);
-
-
-    OrderResponseDto entityToResponseDto(Order order);
-
-    Order entityToResponseDto(OrderRequestDto orderRequestDto, HttpStatus httpStatus);
-
-    OrderRequestDto entityToRequestDto(OrderRequestDto createdOrder, HttpStatus httpStatus);
-
-    OrderRequestDto entityToRequestDto(OrderRequestDto orderRequestDto);
 }
+
+
+
+

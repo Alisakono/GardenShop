@@ -7,11 +7,13 @@ import com.telran.gardenshop.entity.Cart;
 import com.telran.gardenshop.entity.CartItem;
 import com.telran.gardenshop.entity.Product;
 import com.telran.gardenshop.entity.User;
+import com.telran.gardenshop.exceptionhandler.ProductNotFoundException;
 import com.telran.gardenshop.mapper.CartMapper;
 import com.telran.gardenshop.repository.CartRepository;
 import com.telran.gardenshop.repository.ProductRepository;
 import com.telran.gardenshop.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +31,6 @@ public class CartService {
     private final CartMapper cartMapper;
 
 
-
-
     @Autowired
     public CartService(UserRepository userRepository, ProductRepository repository, CartRepository cartRepository, CartMapper cartMapper) {
         this.userRepository = userRepository;
@@ -39,11 +39,9 @@ public class CartService {
         this.cartMapper = cartMapper;
     }
 
-    public CartDto addProductToCart(ItemRequest itemRequest, String email) {
-
-        Product product = repository.findById(Long.valueOf(itemRequest.getProductId()))
-                .orElseThrow(() -> new RuntimeException("Product not found"));
-
+    @Transactional
+    public CartDto addProductToCart(@NotNull ItemRequest itemRequest, String email) {
+        Optional<Product> product = repository.findById(Long.valueOf(itemRequest.getProductId()));
         Optional<User> user = Optional.ofNullable(userRepository.findUsersByEmail(email));
 
         Cart cart = user.get().getCart();
@@ -52,25 +50,21 @@ public class CartService {
             cart.setUser(user.get());
         }
         Set<CartItem> items = cart.getItems();
-        AtomicReference<Boolean> found = new AtomicReference<>(false);
-
-        items.forEach(cartItem -> {
-            if (!cartItem.getProduct().getId().equals(product.getId())) {
-                return;
+        boolean found = false;
+        for (CartItem item : items) {
+            if (item.getProduct().getId().equals(product.get().getId())) {
+                item.setQuantity(itemRequest.getQuantity() + itemRequest.getQuantity());
+                found = true;
+                break;
             }
-            cartItem.setQuantity(cartItem.getQuantity() + itemRequest.getQuantity());
-            found.set(true);
-        });
-
-        if (!found.get()) {
+        }
+        if (!found) {
             CartItem cartItem = new CartItem();
-            cartItem.setProduct(product);
+            cartItem.setProduct(product.get());
             cartItem.setQuantity(itemRequest.getQuantity());
             cartItem.setCart(cart);
             items.add(cartItem);
         }
-
-
         Cart savedCart = cartRepository.save(cart);
         return cartMapper.entityToDto(savedCart);
     }
