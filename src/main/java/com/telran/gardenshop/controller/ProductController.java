@@ -41,6 +41,7 @@ public class ProductController {
         Page<ProductResponseDto> productsByFilters = service.getProductsByFilters(
                pageable,category, minPrice, maxPrice, discount);
         return ResponseEntity.ok(productsByFilters);
+        
     }
 
     @PostMapping
