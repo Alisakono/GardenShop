@@ -48,6 +48,7 @@ public class FavoriteService {
         favorite.setProduct(product);
         favoriteRepository.save(favorite);
     }
+    //entfernen email suche entferne 37.und auf security umstellen.
 
     public List<ProductDto> getProductsByEmail(String email) {
         List<Favorite> favorites = favoriteRepository.findByUserEmail(email);

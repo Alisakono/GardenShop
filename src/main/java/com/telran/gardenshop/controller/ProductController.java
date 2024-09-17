@@ -14,6 +14,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,10 +30,7 @@ public class ProductController {
     @Autowired
     public ProductController(ProductService service) {
         this.service = service;
-    }
 
-    @GetMapping
-    public ResponseEntity<Page<ProductResponseDto>>getProductsByFilters(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
@@ -45,13 +43,15 @@ public class ProductController {
         return ResponseEntity.ok(productsByFilters);
     }
 
-    @PostMapping("")
+    @PostMapping
+
     public ResponseEntity<Void> addProduct(@RequestBody @Validated ProductRequestDto productRequestDto) {
         service.addProduct(productRequestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
+
     public ResponseEntity<ProductRequestDto> updateProduct(@PathVariable Long id, @RequestBody @Validated ProductRequestDto productRequestDto) {
         ProductRequestDto updatedProduct = service.updateProduct(id, productRequestDto);
         return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
@@ -59,7 +59,9 @@ public class ProductController {
     }
 
     @DeleteMapping(value = "/{id}")
+
     public ResponseEntity<Product> deleteProduct(@PathVariable Long id) {
         return service.remove(id);
+
     }
 }

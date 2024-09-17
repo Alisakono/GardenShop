@@ -11,10 +11,6 @@ import com.telran.gardenshop.repository.OrderItemRepository;
 import com.telran.gardenshop.repository.OrderRepository;
 import com.telran.gardenshop.repository.ProductRepository;
 import com.telran.gardenshop.repository.UserRepository;
-import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +26,7 @@ public class OrderService {
     private final ProductRepository repository;
     private final OrderItemRepository orderItemRepository;
 
+
     @Autowired
     public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, UserRepository userRepository, ProductRepository repository, OrderItemRepository orderItemRepository) {
         this.orderMapper = orderMapper;
@@ -37,6 +34,7 @@ public class OrderService {
         this.userRepository = userRepository;
         this.repository = repository;
         this.orderItemRepository = orderItemRepository;
+
     }
 
     @Transactional

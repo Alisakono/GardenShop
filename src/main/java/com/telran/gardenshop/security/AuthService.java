@@ -23,12 +23,11 @@ import java.util.Map;
  * and obtaining authentication information from the security context.
  * </p>
  *
- * @Service               - Indicates that an annotated class is a service component.
- * @RequiredArgsConstructor - Lombok annotation to generate a constructor for all final fields,
- *                           with parameter order same as field order.
- *
  * @author A-R
  * @version 1.0
+ * @Service - Indicates that an annotated class is a service component.
+ * @RequiredArgsConstructor - Lombok annotation to generate a constructor for all final fields,
+ * with parameter order same as field order.
  * @since 1.0
  */
 @Service
@@ -65,6 +64,8 @@ public class AuthService {
         if (encoder.matches(authRequest.getPassword(), user.getPasswordHash())) {
             final String accessToken = jwtProvider.generateAccessToken(user);
             final String refreshToken = jwtProvider.generateRefreshToken(user);
+            user.setRefreshToken(refreshToken);
+            userService.save(user);
             refreshStorage.put(user.getEmail(), refreshToken);
             return new JwtResponse(accessToken, refreshToken);
         } else {
@@ -135,19 +136,17 @@ public class AuthService {
             final Claims claims = jwtProvider.getRefreshClaims(refreshToken);
             // Get the user login from the token claims
             final String login = claims.getSubject();
+            final User user = userService.getByLogin(login)
+                    .orElseThrow(() -> new AuthException("User is not found"));
             // Retrieve the stored refresh token for the user
             final String savedRefreshToken = refreshStorage.get(login);
+
             // Compare the stored refresh token with the provided token
             if (savedRefreshToken != null && savedRefreshToken.equals(refreshToken)) {
-                // Fetch the user data
-                final User user = userService.getByLogin(login)
-                        .orElseThrow(() -> new AuthException("User is not found"));
-                // Generate new access and refresh tokens
                 final String accessToken = jwtProvider.generateAccessToken(user);
                 final String newRefreshToken = jwtProvider.generateRefreshToken(user);
-                // Update the stored refresh token for the user
-                refreshStorage.put(user.getEmail(), newRefreshToken);
-                // Return a JwtResponse with the new access and refresh tokens
+                user.setRefreshToken(newRefreshToken);
+                userService.save(user);
                 return new JwtResponse(accessToken, newRefreshToken);
             }
         }

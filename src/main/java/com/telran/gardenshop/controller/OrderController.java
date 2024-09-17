@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
+
     public ResponseEntity<OrderResponseDto> getOrderById(@PathVariable Long id) {
         OrderResponseDto responseDto = orderService.getOrderById(id);
         if (responseDto != null) {
@@ -34,12 +36,13 @@ public class OrderController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+
     }
 
     @PostMapping
     public ResponseEntity<OrderResponseDto> createOrder(@RequestBody @Valid OrderRequestDto order, @RequestParam String email) {
         OrderResponseDto createdOrder = orderService.createOrder(order, email);
         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
+
     }
 }
-

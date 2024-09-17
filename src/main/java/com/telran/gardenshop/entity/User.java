@@ -1,6 +1,7 @@
 package com.telran.gardenshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.telran.gardenshop.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.transaction.Status;
 import liquibase.change.ChangeStatus;
@@ -27,11 +28,14 @@ public class User {
     private String phoneNumber;
     @Column(name = "password_hash")
     private String passwordHash;
-
-    private String role;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private UserRole userRole;
 
     @OneToOne(mappedBy = "user")
     @JsonBackReference
     private Cart cart;
+private String refreshToken;
+
 
 }

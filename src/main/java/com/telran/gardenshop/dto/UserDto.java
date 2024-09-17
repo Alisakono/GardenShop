@@ -4,6 +4,7 @@ package com.telran.gardenshop.dto;
 import com.telran.gardenshop.entity.Cart;
 import com.telran.gardenshop.entity.Favorite;
 import com.telran.gardenshop.entity.Order;
+import com.telran.gardenshop.enums.UserRole;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.transaction.Status;
@@ -27,5 +28,6 @@ public class UserDto {
     private String passwordHash;
     private String name;
     private String phoneNumber;
+    private UserRole userRole;
 
 }
