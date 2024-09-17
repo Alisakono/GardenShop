@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `garden`.`carts` (
 
 
 -- -----------------------------------------------------
--- Table `garden`.`users`
+-- Table `garden`.`user`
 DROP TABLE IF EXISTS `garden`.`users`;
 
 CREATE TABLE IF NOT EXISTS `garden`.`users` (

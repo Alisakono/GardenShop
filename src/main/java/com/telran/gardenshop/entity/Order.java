@@ -1,8 +1,6 @@
 package com.telran.gardenshop.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +10,8 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
 @Setter
 @Getter
@@ -28,23 +25,23 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-    @NotNull(message = "Delivery address is required")
+    @Column(nullable = false)
     private String deliveryAddress;
 
     private String contactPhone;
-
+    @Column(nullable = false)
     private String deliveryMethod;
-    @Column(name = "status",nullable = false)
-    private String status="PENDING";
+    @Column(name = "status", nullable = false)
+    private String status = "PENDING";
     @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
     @Column(name = "updated_at", nullable = false)
     private Timestamp updatedAt;
-    @OneToMany
-    private Set<OrderItem> items;
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> items= new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "email")
-    private User users;
+    private User user;
 
     @PrePersist
     @PreUpdate
@@ -56,8 +53,19 @@ public class Order {
         this.updatedAt = now;
     }
 
+    public void setCreatedAt(LocalDateTime now) {
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Objects.equals(id, order.id);
+    }
 
-
-
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

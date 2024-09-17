@@ -33,6 +33,7 @@ public class User {
     private UserRole userRole;
 
     @OneToOne(mappedBy = "user")
+    @JsonBackReference
     private Cart cart;
 private String refreshToken;
 

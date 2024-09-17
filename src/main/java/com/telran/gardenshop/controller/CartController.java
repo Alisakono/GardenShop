@@ -52,15 +52,11 @@ public class CartController {
         Optional<User> userOptional = Optional.ofNullable(userRepository.findUsersByEmail(email));
         if (userOptional.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        try {
+        } else {
             CartDto cartDto = cartService.addProductToCart(itemRequest, email);
             return new ResponseEntity<>(cartDto, HttpStatus.OK);
-        } catch (Exception e) {
 
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
-
     }
 }
