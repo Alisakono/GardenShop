@@ -30,7 +30,10 @@ public class ProductController {
     @Autowired
     public ProductController(ProductService service) {
         this.service = service;
+        }
 
+    @GetMapping
+    public ResponseEntity<Page<ProductResponseDto>>getProductsByFilters(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
