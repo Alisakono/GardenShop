@@ -16,6 +16,8 @@ public interface OrderMapper {
     default OrderResponseDto entityToResponseDto(Order order) {
         return new OrderResponseDto();
     }
+    Order dtoToEntity(OrderStatusDto orderStatusDto);
+    OrderStatusDto entityToDto(Order order);
 
 
     @Mapping(source = "deliveryAddress", target = "deliveryAddress")

@@ -1,10 +1,8 @@
 package com.telran.gardenshop.controller;
 
-import com.telran.gardenshop.dto.OrderItemDto;
 import com.telran.gardenshop.dto.OrderResponseDto;
 import com.telran.gardenshop.dto.OrderRequestDto;
-import com.telran.gardenshop.entity.Order;
-import com.telran.gardenshop.entity.OrderItem;
+import com.telran.gardenshop.enums.Status;
 import com.telran.gardenshop.repository.UserRepository;
 import com.telran.gardenshop.service.OrderService;
 import jakarta.validation.Valid;
@@ -12,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/order")
@@ -36,10 +32,32 @@ public class OrderController {
         }
     }
 
+    @GetMapping("/{id}/status")
+    public ResponseEntity<Status> getOrderStatusById(@PathVariable Long id) {
+        Status status = orderService.getOrderStatusById(id);
+        return ResponseEntity.ok(status);
+    }
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity<String> cancelOrder(@PathVariable Long id) {
+        try {
+            orderService.cancelOrder(id);
+            return ResponseEntity.ok("Order has been cancelled successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    @PostMapping("/update-statuses")
+    public ResponseEntity<String> updateOrderStatuses() {
+        orderService.updateOrderStatus();
+        return ResponseEntity.ok("Order statuses have been updated successfully.");
+    }
+
+
     @PostMapping
     public ResponseEntity<OrderResponseDto> createOrder(@RequestBody @Valid OrderRequestDto order, @RequestParam String email) {
         OrderResponseDto createdOrder = orderService.createOrder(order, email);
         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
     }
+
 }
 

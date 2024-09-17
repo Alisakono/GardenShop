@@ -57,7 +57,7 @@ created_at TIMESTAMP NOT NULL,
 delivery_address VARCHAR(45) NOT NULL,
 contact_phone VARCHAR(45) NULL,
 delivery_method VARCHAR(45) NOT NULL,
-status ENUM('pending', 'shipped', 'delivered', 'canceled') NOT NULL,
+status ENUM('AWAITING_PAYMENT','PENDING', 'SHIPPED', 'DELIVERED', 'CANCELED') NOT NULL,
 updated_at TIMESTAMP NOT NULL,
 PRIMARY KEY (order_id),
 FOREIGN KEY (email) REFERENCES users (email)
