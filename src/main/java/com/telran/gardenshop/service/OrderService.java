@@ -7,7 +7,7 @@ import com.telran.gardenshop.entity.User;
 import com.telran.gardenshop.mapper.OrderMapper;
 import com.telran.gardenshop.repository.OrderRepository;
 import com.telran.gardenshop.repository.UserRepository;
-import org.jetbrains.annotations.NotNull;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +17,11 @@ import java.util.*;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
-   private final UserRepository userRepository;
 
     @Autowired
     public OrderService(OrderRepository orderRepository, OrderMapper orderMapper,UserRepository userRepository) {
         this.orderMapper = orderMapper;
         this.orderRepository = orderRepository;
-        this.userRepository = userRepository;
-
     }
 
     public OrderResponseDto getOrderById(Long id) {

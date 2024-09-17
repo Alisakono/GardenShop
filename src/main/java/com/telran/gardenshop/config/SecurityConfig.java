@@ -1,6 +1,14 @@
 package com.telran.gardenshop.config;
 
+import com.telran.gardenshop.security.JwtAuthentication;
 import com.telran.gardenshop.security.JwtFilter;
+import com.telran.gardenshop.security.JwtUtils;
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.io.IOException;
+
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
@@ -24,9 +34,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    /**
-     * The JWT filter bean for processing JWT tokens.
-     */
     private final JwtFilter jwtFilter;
 
     @Autowired
@@ -34,17 +41,7 @@ public class SecurityConfig {
         this.jwtFilter = jwtFilter;
     }
 
-    /**
-     * Configures the security filter chain.
-     * <p>
-     * This method sets up the security configurations such as CSRF disabling, session management policy,
-     * authorization rules and adds the JWT filter after the UsernamePasswordAuthenticationFilter.
-     * </p>
-     *
-     * @param http the HttpSecurity instance to configure.
-     * @return the SecurityFilterChain instance.
-     * @throws Exception if an error occurs during configuration.
-     */
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
@@ -53,6 +50,7 @@ public class SecurityConfig {
                         authz -> authz
                                 .requestMatchers(
                                         "/users/login",
+                                        "/users/register",
                                         "/user/token",
                                         "/swagger-ui.html",
                                         "/api/v1/auth/**",
@@ -62,4 +60,5 @@ public class SecurityConfig {
                                 .anyRequest().authenticated()
                 ).addFilterAfter(jwtFilter, UsernamePasswordAuthenticationFilter.class).build();
     }
+
 }

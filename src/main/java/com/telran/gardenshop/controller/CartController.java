@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,15 +27,15 @@ public class CartController {
 
     private final CartService cartService;
     private final UserRepository userRepository;
-    private final CartRepository cartRepository;
-   
+
 
     @Autowired
-    public CartController(CartService cartService, UserRepository userRepository, CartRepository cartRepository) {
+    public CartController(CartService cartService, UserRepository userRepository) {
         this.cartService = cartService;
         this.userRepository = userRepository;
-        this.cartRepository = cartRepository;
+
     }
+
     @GetMapping
     public ResponseEntity<CartDto> getCart(@RequestParam String email) {
         Optional<User> userOptional = Optional.ofNullable(userRepository.findUsersByEmail(email));
@@ -42,10 +43,11 @@ public class CartController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             CartDto cartDto = cartService.getCartByEmail(email);
-            return new ResponseEntity<>(cartDto,HttpStatus.OK);
-        }}
+            return new ResponseEntity<>(cartDto, HttpStatus.OK);
+        }
+    }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<CartDto> addProductToCart(@RequestBody ItemRequest itemRequest, @RequestParam String email) {
         Optional<User> userOptional = Optional.ofNullable(userRepository.findUsersByEmail(email));
         if (userOptional.isEmpty()) {
@@ -56,7 +58,7 @@ public class CartController {
             CartDto cartDto = cartService.addProductToCart(itemRequest, email);
             return new ResponseEntity<>(cartDto, HttpStatus.OK);
         } catch (Exception e) {
-            
+
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

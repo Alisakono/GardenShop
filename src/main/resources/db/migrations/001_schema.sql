@@ -9,7 +9,7 @@ name VARCHAR(45) NOT NULL,
 email VARCHAR(45) NOT NULL,
 phone_number VARCHAR(45) NULL,
 password_hash VARCHAR(255) NOT NULL,
-role ENUM('admin', 'manager', 'user') NOT NULL,
+role VARCHAR(45) NOT NULL,
 PRIMARY KEY (email)
 );
 

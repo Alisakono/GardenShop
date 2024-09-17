@@ -3,16 +3,14 @@ package com.telran.gardenshop.service;
 import com.telran.gardenshop.dto.UserDto;
 
 import com.telran.gardenshop.entity.User;
+import com.telran.gardenshop.enums.UserRole;
 import com.telran.gardenshop.mapper.UserMapper;
 import com.telran.gardenshop.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,23 +18,27 @@ public class UserService {
     private static final Logger logger = LogManager.getLogger(UserService.class);
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
     public UserDto addUser(UserDto userDto) {
-        User user = new User();
-        user.setEmail(userDto.getEmail());
-
-        user.setName(userDto.getName());
-        user.setPasswordHash(userDto.getPasswordHash());
-        user.setPhoneNumber(userDto.getPhoneNumber());
-
+        if (userRepository.existsById(userDto.getEmail())) {
+            throw new IllegalArgumentException("Ein Benutzer mit dieser E-Mail existiert bereits");
+        }
+        User user = userMapper.dtoToEntity(userDto);
+        user.setPasswordHash(passwordEncoder.encode(userDto.getPasswordHash()));
+        if (userDto.getUserRole() != null) {
+            user.setUserRole(userDto.getUserRole());
+        } else {
+            user.setUserRole(UserRole.USER);
+        }
         User savedUser = userRepository.save(user);
-
         return userMapper.entityToDto(savedUser);
     }
 
@@ -55,6 +57,9 @@ public class UserService {
             return true;
         }
         return false;
+    }
+    public  void save(User user){
+        userRepository.save(user);
     }
 
     public void deleteUserByEmail(String email) {

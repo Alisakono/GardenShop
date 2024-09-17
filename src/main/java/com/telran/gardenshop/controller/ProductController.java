@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.telran.gardenshop.service.ProductService;
@@ -36,6 +37,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
+
     @Operation(summary = "Retrieve product by id")
     public ResponseEntity<ProductDto> getById(@PathVariable Long id) {
         ProductDto product = service.getById(id);
@@ -47,7 +49,8 @@ public class ProductController {
 
     }
 
-    @GetMapping("")
+    @GetMapping
+
     public List<ProductResponseDto> getProductsByFilters(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) BigDecimal minPrice,
@@ -64,7 +67,8 @@ public class ProductController {
 
     }
 
-    @PostMapping("")
+    @PostMapping
+
     public ResponseEntity<Void> addProduct(@RequestBody @Validated ProductRequestDto productRequestDto) {
         if (productRequestDto == null || productRequestDto.getPrice() == null || productRequestDto.getPrice().compareTo(BigDecimal.ZERO) < 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -79,6 +83,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
+
     public ResponseEntity<ProductRequestDto> updateProduct(@PathVariable Long id, @RequestBody @Validated ProductRequestDto productRequestDto) {
         try {
             ProductRequestDto updatedProduct = service.updateProduct(id, productRequestDto);
@@ -92,6 +97,7 @@ public class ProductController {
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<Product> deleteProduct(@PathVariable String id) {
         if (id == null || id.trim().isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

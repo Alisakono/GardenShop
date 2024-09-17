@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,14 +26,14 @@ public class FavoriteController {
     public FavoriteController(FavoriteService favoriteService) {
         this.favoriteService = favoriteService;
     }
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Void> addProductToFavorites(@RequestParam String email, @RequestParam String productId) {
         favoriteService.addProductToFavorites(email, productId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-
     @GetMapping("/products/{email}")
+
     public ResponseEntity<List<ProductDto>> getProductsByEmail(@PathVariable String email) {
         List<ProductDto> products = favoriteService.getProductsByEmail(email);
         if (!products.isEmpty()) {
@@ -40,4 +42,12 @@ public class FavoriteController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    //entfernen email suche
+    @GetMapping("/favorites")
+    public ResponseEntity<List<ProductDto>> getFavoriteProducts() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<ProductDto> products = favoriteService.getProductsByEmail(email);
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
 }

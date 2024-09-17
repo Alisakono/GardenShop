@@ -61,6 +61,7 @@ public class JwtAuthentication implements Authentication {
                 .collect(Collectors.toSet());
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;

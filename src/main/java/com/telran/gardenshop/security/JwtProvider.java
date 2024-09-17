@@ -17,21 +17,21 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Set;
 /**
-       * Component for handling JWT (JSON Web Token) operations.
-        * <p>
+ * Component for handling JWT (JSON Web Token) operations.
+ * <p>
  * This component provides methods for generating, validating, and extracting claims from JWT tokens.
-        * It utilizes two secret keys for signing access tokens and refresh tokens.
-        * </p>
-        *
-        * @Slf4j                 - Lombok annotation for generating a logger field.
-        * @Component             - Indicates that an annotated class is a "component".
-        *                          Such classes are considered as candidates for auto-detection
+ * It utilizes two secret keys for signing access tokens and refresh tokens.
+ * </p>
+ *
+ * @Slf4j                 - Lombok annotation for generating a logger field.
+ * @Component             - Indicates that an annotated class is a "component".
+ *                          Such classes are considered as candidates for auto-detection
  *                          when using annotation-based configuration and classpath scanning.
  *
-         * @author A-R
+ * @author A-R
  * @version 1.0
-        * @since 1.0
-        */
+ * @since 1.0
+ */
 @Slf4j
 @Component
 public class JwtProvider {
@@ -75,7 +75,7 @@ public class JwtProvider {
                 .setSubject(user.getEmail())
                 .setExpiration(accessExpiration)
                 .signWith(jwtAccessSecret)
-                .claim("roles", Set.of(user.getEmail()))
+                .claim("roles", Set.of(user.getUserRole()))
                 .claim("name", user.getName())
                 .compact();
     }
