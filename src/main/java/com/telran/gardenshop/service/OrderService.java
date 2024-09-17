@@ -5,6 +5,7 @@ import com.telran.gardenshop.dto.OrderResponseDto;
 import com.telran.gardenshop.entity.Order;
 import com.telran.gardenshop.entity.OrderItem;
 import com.telran.gardenshop.entity.User;
+import com.telran.gardenshop.enums.Status;
 import com.telran.gardenshop.exceptionhandler.OrderNotFoundException;
 import com.telran.gardenshop.mapper.OrderMapper;
 import com.telran.gardenshop.repository.OrderItemRepository;
@@ -12,6 +13,7 @@ import com.telran.gardenshop.repository.OrderRepository;
 import com.telran.gardenshop.repository.ProductRepository;
 import com.telran.gardenshop.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -59,8 +61,41 @@ public class OrderService {
         Order save = orderRepository.save(order);
         return orderMapper.toOrderResponseDto(save);
     }
-}
 
+    @Transactional
+    @Scheduled(fixedRate = 30_000)
+    public void updateOrderStatus() {
+        log.info("Updating order statuses...");
+        List<Order> orders = orderRepository.findAll();
+        for (Order order : orders) {
+            Status currentStatus = order.getStatus();
+            Status newStatus = switch (currentStatus) {
+                case AWAITING_PAYMENT -> Status.PENDING;
+                case PENDING -> Status.SHIPPED;
+                case SHIPPED -> Status.DELIVERED;
+                default -> currentStatus;
+            };
+            if (newStatus != currentStatus) {
+                order.setStatus(newStatus);
+                orderRepository.save(order);
+                log.info("Order ID {} status updated to {}", order.getId(), newStatus);
+            }
+        }
+        log.info("Order status update complete.");
+    }
+    public void cancelOrder(Long id) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
+        if (order.getStatus() == Status.AWAITING_PAYMENT || order.getStatus() == Status.PENDING) {
+            order.setStatus(Status.CANCELLED);
+            orderRepository.save(order);
+        }
+    }
+    public Status getOrderStatusById(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new OrderNotFoundException(id));
+        return order.getStatus();
+    }
+}
 
 
 

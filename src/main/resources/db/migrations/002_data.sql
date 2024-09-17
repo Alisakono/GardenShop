@@ -74,7 +74,7 @@ values ('1','1',2),
        ('5','3',4);
 
 insert into orders(email, created_at, delivery_address, contact_phone, delivery_method, status, updated_at)
-VALUES ('alise@example.com',NOW(),'Berlin Mapper Str.20',1234567890,'courier','pending',NOW());
+VALUES ('alise@example.com',NOW(),'Berlin Mapper Str.20',1234567890,'courier','AWAITING_PAYMENT',NOW());
 
 insert into order_items(order_id, product_id, quantity, price_at_purchase)
 VALUES ('1','2',5,12.99);

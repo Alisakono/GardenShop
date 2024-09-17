@@ -16,7 +16,6 @@ import java.util.UUID;
 @Service
 @Slf4j
 public class CategoryService {
-    private static final Logger logger = LogManager.getLogger(CategoryService.class);
     private final CategoryRepository repository;
     private final CategoryMapper categoryMapper;
 
@@ -27,8 +26,8 @@ public class CategoryService {
     }
 
     public void addCategory(CategoryDto categoryDto) {
-        Category category = new Category();
-        category.setCategoryId(categoryDto.getCategoryId());
+       Category category = new Category();
+        category.setCategoryId(UUID.randomUUID().toString());
         category.setCategoryName(categoryDto.getCategoryName());
         repository.save(category);
     }

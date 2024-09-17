@@ -1,5 +1,6 @@
 package com.telran.gardenshop.entity;
 
+import com.telran.gardenshop.enums.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,7 +33,8 @@ public class Order {
     @Column(nullable = false)
     private String deliveryMethod;
     @Column(name = "status", nullable = false)
-    private String status = "PENDING";
+    @Enumerated(EnumType.STRING)
+    private Status status;
     @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
     @Column(name = "updated_at", nullable = false)
