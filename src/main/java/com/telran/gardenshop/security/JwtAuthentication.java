@@ -34,9 +34,10 @@ public class JwtAuthentication implements Authentication {
     private boolean authenticated;
 
     /**
+     *
      * The username of the authenticated user.
      */
-    private String username;
+    private String login;
 
     /**
      * The first name of the authenticated user.
@@ -51,11 +52,11 @@ public class JwtAuthentication implements Authentication {
     /**
      * Constructor to initialize a JwtAuthentication instance with a username and a collection of roles.
      *
-     * @param username the username of the authenticated user.
+     * @param login the username of the authenticated user.
      * @param roles    a collection of roles granted to the user.
      */
-    public JwtAuthentication(String username, Collection<String> roles) {
-        this.username = username;
+    public JwtAuthentication(String login, Collection<String> roles) {
+        this.login = login;
         this.roles = roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toSet());
@@ -79,7 +80,7 @@ public class JwtAuthentication implements Authentication {
 
     @Override
     public Object getPrincipal() {
-        return name;
+        return login;
     }
 
     @Override

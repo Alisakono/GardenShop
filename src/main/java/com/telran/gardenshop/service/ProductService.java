@@ -19,11 +19,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
-    //private static final Logger logger = LogManager.getLogger(ProductService.class);
     private final ProductRepository repository;
     private final ProductMapper productMapper;
 

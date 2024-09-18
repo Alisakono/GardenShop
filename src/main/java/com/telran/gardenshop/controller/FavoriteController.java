@@ -33,7 +33,7 @@ public class FavoriteController {
     }
 
     @GetMapping("/products/{email}")
-
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<List<ProductDto>> getProductsByEmail(@PathVariable String email) {
         List<ProductDto> products = favoriteService.getProductsByEmail(email);
         if (!products.isEmpty()) {
@@ -42,8 +42,8 @@ public class FavoriteController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-    //entfernen email suche
     @GetMapping("/favorites")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<List<ProductDto>> getFavoriteProducts() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         List<ProductDto> products = favoriteService.getProductsByEmail(email);

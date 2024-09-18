@@ -3,6 +3,8 @@ package com.telran.gardenshop.mapper;
 import com.telran.gardenshop.dto.*;
 import com.telran.gardenshop.entity.Order;
 import com.telran.gardenshop.entity.OrderItem;
+import com.telran.gardenshop.entity.Product;
+import org.jetbrains.annotations.NotNull;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -31,11 +33,13 @@ public interface OrderMapper {
     List<OrderItemDto> toOrderItemDtoList(List<OrderItem> items);
 
     @Named("calculateTotalPrice")
-    default BigDecimal calculateTotalPrice(List<OrderItem> items) {
+    default BigDecimal calculateTotalPrice(@NotNull List<OrderItem> items) {
         return items.stream()
-                .map(OrderItem::getPriceAtPurchase)
+                .map(item -> {
+                   BigDecimal price = item.getPriceAtPurchase();
+                    return price != null ? price : BigDecimal.ZERO;
+                })
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-
     }
 
     @Mapping(source = "id", target = "orderId")
