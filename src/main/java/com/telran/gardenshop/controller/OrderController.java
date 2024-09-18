@@ -24,7 +24,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<OrderResponseDto> getOrderById(@PathVariable Long id) {
         OrderResponseDto responseDto = orderService.getOrderById(id);
         if (responseDto != null) {
@@ -36,11 +36,13 @@ public class OrderController {
     }
 
     @GetMapping("/{id}/status")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<Status> getOrderStatusById(@PathVariable Long id) {
         Status status = orderService.getOrderStatusById(id);
         return ResponseEntity.ok(status);
     }
     @PostMapping("/{id}/cancel")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<String> cancelOrder(@PathVariable Long id) {
         try {
             orderService.cancelOrder(id);
@@ -50,6 +52,7 @@ public class OrderController {
         }
     }
     @PostMapping("/update-statuses")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<String> updateOrderStatuses() {
         orderService.updateOrderStatus();
         return ResponseEntity.ok("Order statuses have been updated successfully.");
@@ -57,8 +60,9 @@ public class OrderController {
 
 
     @PostMapping
-    public ResponseEntity<OrderResponseDto> createOrder(@RequestBody @Valid OrderRequestDto order, @RequestParam String email) {
-        OrderResponseDto createdOrder = orderService.createOrder(order, email);
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    public ResponseEntity<OrderResponseDto> createOrder(@RequestBody @Valid OrderRequestDto order) {
+        OrderResponseDto createdOrder = orderService.createOrder(order);
         return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
 
     }

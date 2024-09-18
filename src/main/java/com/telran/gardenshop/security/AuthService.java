@@ -96,12 +96,10 @@ public class AuthService {
             // Get the user login from the token claims
             final String login = claims.getSubject();
             // Retrieve the stored refresh token for the user
-            final String savedRefreshToken = refreshStorage.get(login);
+            final User user =userService.getByLogin(login).orElseThrow(()->new AuthException("User is not found"));
+            final String savedRefreshToken = user.getRefreshToken();
             // Compare the stored refresh token with the provided token
             if (savedRefreshToken != null && savedRefreshToken.equals(refreshToken)) {
-                // Fetch the user data
-                final User user = userService.getByLogin(login)
-                        .orElseThrow(() -> new AuthException("User is not found"));
                 // Generate a new access token
                 final String accessToken = jwtProvider.generateAccessToken(user);
                 // Return a JwtResponse with the new access token
@@ -109,7 +107,7 @@ public class AuthService {
             }
         }
         // Return a JwtResponse with null values if validation fails
-        return new JwtResponse(null, null);
+       throw new AuthException("Validation failed");
     }
 
 
@@ -139,7 +137,7 @@ public class AuthService {
             final User user = userService.getByLogin(login)
                     .orElseThrow(() -> new AuthException("User is not found"));
             // Retrieve the stored refresh token for the user
-            final String savedRefreshToken = refreshStorage.get(login);
+            final String savedRefreshToken = user.getRefreshToken();
 
             // Compare the stored refresh token with the provided token
             if (savedRefreshToken != null && savedRefreshToken.equals(refreshToken)) {
@@ -152,9 +150,8 @@ public class AuthService {
         }
         // Throw an AuthException if validation fails
         throw new AuthException("Invalid JWT token");
+
     }
-
-
     /**
      * Retrieves the authentication information from the security context.
      *

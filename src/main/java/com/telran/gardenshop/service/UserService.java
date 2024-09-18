@@ -48,11 +48,9 @@ public class UserService {
         Optional<User> userOptional = userRepository.findById(userDto.getEmail());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            // Update fields
             user.setName(userDto.getName());
             user.setPasswordHash(userDto.getPasswordHash());
             user.setPhoneNumber(userDto.getPhoneNumber());
-            // Save updated user
             userRepository.save(user);
             return true;
         }

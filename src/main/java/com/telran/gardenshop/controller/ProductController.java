@@ -30,29 +30,34 @@ public class ProductController {
     @Autowired
     public ProductController(ProductService service) {
         this.service = service;
+    }
 
+    @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    public ResponseEntity<Page<ProductResponseDto>> getProductsByFilters(
             @RequestParam(required = false) String category,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
             @RequestParam(required = false) Boolean discount,
             @PageableDefault(size = 10)
             @SortDefault.SortDefaults({@SortDefault(sort = "name")})
-           Pageable pageable){
+            Pageable pageable) {
         Page<ProductResponseDto> productsByFilters = service.getProductsByFilters(
-               pageable,category, minPrice, maxPrice, discount);
+                pageable, category, minPrice, maxPrice, discount);
         return ResponseEntity.ok(productsByFilters);
-        
+
     }
 
-    @PostMapping
 
+    @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<Void> addProduct(@RequestBody @Validated ProductRequestDto productRequestDto) {
         service.addProduct(productRequestDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<ProductRequestDto> updateProduct(@PathVariable Long id, @RequestBody @Validated ProductRequestDto productRequestDto) {
         ProductRequestDto updatedProduct = service.updateProduct(id, productRequestDto);
         return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
@@ -60,7 +65,7 @@ public class ProductController {
     }
 
     @DeleteMapping(value = "/{id}")
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<Product> deleteProduct(@PathVariable Long id) {
         return service.remove(id);
 

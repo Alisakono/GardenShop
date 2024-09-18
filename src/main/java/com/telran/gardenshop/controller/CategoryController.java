@@ -32,13 +32,14 @@ public class CategoryController {
     @GetMapping
 
     @Operation(summary = "Retrieve all category")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public List<CategoryDto> getCategories() {
         return service.getAll();
     }
 
     @PostMapping
     @Operation(summary = "Create categories")
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<Void> createCategory(@RequestBody @Valid CategoryDto category) {
         service.addCategory(category);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -46,7 +47,7 @@ public class CategoryController {
 
     @PutMapping
     @Operation(summary = "Update categories")
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity<Category> updateCategory(@RequestBody @Valid CategoryDto category) {
         Category updatedCategory = service.updateCategory(category);
         return new ResponseEntity<>(updatedCategory, HttpStatus.OK);

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,8 +34,8 @@ public class FavoriteService {
 
     public void addProductToFavorites(String email, String productId) {
 
-        User user = userRepository.findUsersByEmail(email);
-        user.setEmail(email);
+        Optional<User> user = userRepository.findUsersByEmail(email);
+        user.get();
 
         Product product = productRepository.findById(Long.valueOf(productId))
                 .orElseThrow(() -> new IllegalArgumentException("Produkt mit der ID " + productId + " nicht gefunden"));
@@ -44,7 +45,7 @@ public class FavoriteService {
             throw new IllegalArgumentException("Dieses Produkt ist bereits in den Favoriten des Benutzers.");
         }
         Favorite favorite = new Favorite();
-        favorite.setUser(user);
+        favorite.setUser(user.get());
         favorite.setProduct(product);
         favoriteRepository.save(favorite);
     }

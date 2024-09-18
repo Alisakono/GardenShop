@@ -13,6 +13,6 @@ import java.util.Optional;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     @NotNull
     Optional<Order> findById(@NotNull Long id);
-    @Query("SELECT o FROM Order o WHERE o.status IN ( 'PENDING','SHIPPED','DELIVERED')")
-    List<Order>findOrdersToUpdate();
+  /*  @Query("SELECT o FROM Order o WHERE o.status IN ( 'PENDING','SHIPPED','DELIVERED')")
+    List<Order>findOrdersToUpdate();*/
 }

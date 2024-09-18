@@ -37,8 +37,9 @@ public class CartController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<CartDto> getCart(@RequestParam String email) {
-        Optional<User> userOptional = Optional.ofNullable(userRepository.findUsersByEmail(email));
+        Optional<Optional<User>> userOptional = Optional.ofNullable(userRepository.findUsersByEmail(email));
         if (userOptional.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
@@ -48,12 +49,13 @@ public class CartController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public ResponseEntity<CartDto> addProductToCart(@RequestBody ItemRequest itemRequest, @RequestParam String email) {
-        Optional<User> userOptional = Optional.ofNullable(userRepository.findUsersByEmail(email));
+        Optional<Optional<User>> userOptional = Optional.ofNullable(userRepository.findUsersByEmail(email));
         if (userOptional.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            CartDto cartDto = cartService.addProductToCart(itemRequest, email);
+            CartDto cartDto = cartService.addProductToCart(itemRequest);
             return new ResponseEntity<>(cartDto, HttpStatus.OK);
 
 
