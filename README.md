@@ -17,7 +17,7 @@ Durch die Integration von Spring Boot, Liquibase und einer relationalen MySQL-Da
 - Sicheres Nutzer- und Authentifizierungssystem
 - Datenbank-Migration und -Integration
 
----
+-
 
 ### Technologie-Stack
 
@@ -35,7 +35,7 @@ Durch die Integration von Spring Boot, Liquibase und einer relationalen MySQL-Da
 | **Swagger/OpenAPI**       | API-Dokumentation (unter `/swagger-ui`)              |
 | **Rome**                  | Unterstützung für RSS-Feeds                         |
 
----
+-
 
 ### Autoren und Beiträge
 
@@ -44,7 +44,7 @@ Durch die Integration von Spring Boot, Liquibase und einer relationalen MySQL-Da
 | **Alisa Konovalov**    | Backend-Entwicklung, Datenbank-Integration mit Spring Boot und Liquibase |
 | **Eugen Konovalov**    | Sicherheitskonzept mit Spring Security und JWT           |
 
-
+---
 # GardenShop
 
 GardenShop is an online service that simulates the sale of goods and tools in the style of a supermarket. The project is backend-oriented and is based on cutting-edge technologies.
