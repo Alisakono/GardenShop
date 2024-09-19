@@ -17,7 +17,7 @@ Durch die Integration von Spring Boot, Liquibase und einer relationalen MySQL-Da
 - Sicheres Nutzer- und Authentifizierungssystem
 - Datenbank-Migration und -Integration
 
---
+
 
 ### Technologie-Stack
 
@@ -35,7 +35,7 @@ Durch die Integration von Spring Boot, Liquibase und einer relationalen MySQL-Da
 | **Swagger/OpenAPI**       | API-Dokumentation (unter `/swagger-ui`)              |
 | **Rome**                  | Unterstützung für RSS-Feeds                         |
 
---
+
 
 ### Autoren und Beiträge
 
@@ -63,7 +63,7 @@ By integrating Spring Boot, Liquibase, and a relational MySQL database, all shop
 - Secure user authentication system
 - Database migration and integration
 
----
+
 
 ### Technology Stack
 
@@ -81,7 +81,7 @@ By integrating Spring Boot, Liquibase, and a relational MySQL database, all shop
 | **Swagger/OpenAPI**       | API documentation (available at `/swagger-ui`)              |
 | **Rome**                  | Support for RSS feeds                         |
 
----
+
 
 ### Authors and Contributions
 
