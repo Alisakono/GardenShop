@@ -8,7 +8,10 @@ import com.telran.gardenshop.entity.CartItem;
 import com.telran.gardenshop.entity.User;
 import com.telran.gardenshop.repository.CartRepository;
 import com.telran.gardenshop.repository.UserRepository;
+import com.telran.gardenshop.security.AuthService;
 import com.telran.gardenshop.service.CartService;
+import com.telran.gardenshop.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,32 +30,37 @@ public class CartController {
 
     private final CartService cartService;
     private final UserRepository userRepository;
+    private final UserService userService;
+    private final AuthService authService;
 
 
     @Autowired
-    public CartController(CartService cartService, UserRepository userRepository) {
+    public CartController(CartService cartService, UserRepository userRepository, UserService userService, AuthService authService) {
         this.cartService = cartService;
         this.userRepository = userRepository;
-
+        this.userService = userService;
+        this.authService = authService;
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
-    public ResponseEntity<CartDto> getCart(@RequestParam String email) {
-        Optional<Optional<User>> userOptional = Optional.ofNullable(userRepository.findUsersByEmail(email));
-        if (userOptional.isEmpty()) {
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    @Operation(summary = "Get cart")
+    public ResponseEntity<CartDto> getCart() {
+        Optional<User> user = userRepository.findUsersByEmail(authService.getAuthInfo().getLogin());
+        if (user.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            CartDto cartDto = cartService.getCartByEmail(email);
+            CartDto cartDto = cartService.getCartByEmail(authService.getAuthInfo().getLogin());
             return new ResponseEntity<>(cartDto, HttpStatus.OK);
         }
     }
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_USER')")
-    public ResponseEntity<CartDto> addProductToCart(@RequestBody ItemRequest itemRequest, @RequestParam String email) {
-        Optional<Optional<User>> userOptional = Optional.ofNullable(userRepository.findUsersByEmail(email));
-        if (userOptional.isEmpty()) {
+    @Operation(summary = "Add product to cart")
+    public ResponseEntity<CartDto> addProductToCart(@RequestBody ItemRequest itemRequest) {
+        Optional<User> user = userRepository.findUsersByEmail(authService.getAuthInfo().getLogin());
+        if (user.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
             CartDto cartDto = cartService.addProductToCart(itemRequest);

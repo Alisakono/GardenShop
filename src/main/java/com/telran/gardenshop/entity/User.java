@@ -27,13 +27,14 @@ public class User {
     @Column(name = "phone_number")
     private String phoneNumber;
     @Column(name = "password_hash")
-    private String passwordHash;
+    private String password;
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private UserRole userRole;
+    private UserRole userRole=UserRole.USER;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonBackReference
+    @JoinColumn(name = "cart_id",referencedColumnName = "id")
     private Cart cart;
 private String refreshToken;
 

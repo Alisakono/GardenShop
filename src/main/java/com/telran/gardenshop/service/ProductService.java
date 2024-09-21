@@ -2,14 +2,13 @@ package com.telran.gardenshop.service;
 
 import com.telran.gardenshop.dto.ProductRequestDto;
 import com.telran.gardenshop.dto.ProductResponseDto;
-
+import com.telran.gardenshop.entity.Category;
 import com.telran.gardenshop.entity.Product;
 import com.telran.gardenshop.exceptionhandler.ProductNotFoundException;
 import com.telran.gardenshop.mapper.ProductMapper;
 import com.telran.gardenshop.repository.CategoryRepository;
 import com.telran.gardenshop.repository.ProductRepository;
-
-
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -24,26 +23,40 @@ import java.util.List;
 public class ProductService {
     private final ProductRepository repository;
     private final ProductMapper productMapper;
+    private final CategoryRepository categoryRepository;
+    private final UserService userService;
 
 
     @Autowired
-    public ProductService(ProductRepository repository, ProductMapper productMapper, CategoryRepository categoryRepository) {
+    public ProductService(ProductRepository repository, ProductMapper productMapper, CategoryRepository categoryRepository, UserService userService) {
         this.repository = repository;
         this.productMapper = productMapper;
+        this.categoryRepository = categoryRepository;
+        this.userService = userService;
 
     }
 
-    public void addProduct(ProductRequestDto productRequestDto) {
+    public ProductResponseDto addProduct(ProductRequestDto productRequestDto) {
         Product product = new Product();
-        repository.save(product);
-        productMapper.entityToDto(product);
+        Category category = categoryRepository.getReferenceById(String.valueOf(productRequestDto.getCategoryId()));
+        product.setCategory(category);
+        product.setDescription(productRequestDto.getDescription());
+        product.setPrice(productRequestDto.getPrice());
+        product.setName(productRequestDto.getName());
+        product.setDiscountPrice(productRequestDto.getDiscountPrice());
+        product.setImageUrl(productRequestDto.getImageUrl());
+        Product saved = repository.save(product);
+        return productMapper.requestDtoToResponseDto(saved);
+
     }
 
+    @Transactional
     public ProductRequestDto updateProduct(Long id, ProductRequestDto productRequestDto) {
         Product product = repository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
         Product updatedProduct = repository.save(product);
-        return productMapper.entityToRequestDto(updatedProduct);
+        productMapper.entityToRequestDto(updatedProduct);
+        return productRequestDto;
     }
 
     public ProductRequestDto getById(Long id) {

@@ -16,10 +16,18 @@ import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
+   // @Mapping(source = "category.categoryName",target = "categoryName")
     @Mapping(source = "category.categoryId", target = "categoryId")
     ProductResponseDto entityToResponseDto(Product product);
+    @Mapping(source = "category.categoryId", target = "categoryId")
+    ProductResponseDto requestDtoToEntity(Product productRequestDto);
+
+    @Mapping(source = "category.categoryId", target = "categoryId")
+     ProductResponseDto requestDtoToResponseDto(Product productRequestDto);
 
     ProductResponseDto entityToResponseDto(ProductRequestDto products);
+    @Mapping(source = "categoryId", target = "category.categoryId")
+    Product dtoToEntity(ProductRequestDto productRequestDto);
       ProductDto entityToDto(Product product);
       Product dtoToEntity(ProductDto productDto);
 

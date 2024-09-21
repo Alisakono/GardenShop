@@ -30,7 +30,6 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Long id;
-    @NotNull
     @Length(max = 45)
     private String name;
     private BigDecimal price;
@@ -67,7 +66,4 @@ public class Product {
     public int hashCode() {
         return Objects.hash(id, name);
     }
-
-
-
 }

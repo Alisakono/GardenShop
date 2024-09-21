@@ -2,6 +2,7 @@ package com.telran.gardenshop.dto;
 
 import com.telran.gardenshop.entity.OrderItem;
 import com.telran.gardenshop.entity.Product;
+import com.telran.gardenshop.enums.Status;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class OrderRequestDto {
 
     @NotBlank(message = "Delivery method is required")
     private String deliveryMethod;
+    private Status status;
 
 
 
