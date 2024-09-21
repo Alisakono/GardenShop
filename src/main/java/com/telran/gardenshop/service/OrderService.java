@@ -85,39 +85,6 @@ public class OrderService {
 
         throw new IllegalArgumentException("User is not authenticated");
     }
-    @Transactional
-    @Scheduled(fixedRate = 30_000)
-    public void updateOrderStatus() {
-        log.info("Updating order statuses...");
-        List<Order> orders = orderRepository.findAll();
-        for (Order order : orders) {
-            Status currentStatus = order.getStatus();
-            Status newStatus = switch (currentStatus) {
-                case AWAITING_PAYMENT -> Status.PENDING;
-                case PENDING -> Status.SHIPPED;
-                case SHIPPED -> Status.DELIVERED;
-                default -> currentStatus;
-            };
-            if (newStatus != currentStatus) {
-                order.setStatus(newStatus);
-                orderRepository.save(order);
-                log.info("Order ID {} status updated to {}", order.getId(), newStatus);
-            }
-        }
-        log.info("Order status update complete.");
-    }
-    public void cancelOrder(Long id) {
-        Order order = orderRepository.findById(id).orElseThrow(() -> new OrderNotFoundException(id));
-        if (order.getStatus() == Status.AWAITING_PAYMENT || order.getStatus() == Status.PENDING) {
-            order.setStatus(Status.CANCELLED);
-            orderRepository.save(order);
-        }
-    }
-    public Status getOrderStatusById(Long id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException(id));
-        return order.getStatus();
-    }
 }
 
 

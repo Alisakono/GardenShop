@@ -5,6 +5,7 @@ import com.telran.gardenshop.dto.OrderRequestDto;
 import com.telran.gardenshop.enums.Status;
 import com.telran.gardenshop.repository.UserRepository;
 import com.telran.gardenshop.service.OrderService;
+import com.telran.gardenshop.service.OrderStatusService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.persistence.Table;
 import jakarta.validation.Valid;
@@ -19,11 +20,12 @@ import org.springframework.web.bind.annotation.*;
 @Table(name = "orders")
 public class OrderController {
     private final OrderService orderService;
+    private final OrderStatusService orderStatusService;
 
     @Autowired
-    public OrderController(OrderService orderService, UserRepository userRepository) {
+    public OrderController(OrderService orderService, UserRepository userRepository, OrderStatusService orderStatusService) {
         this.orderService = orderService;
-
+        this.orderStatusService = orderStatusService;
     }
 
     @GetMapping("/{id}")
@@ -43,7 +45,7 @@ public class OrderController {
     @PreAuthorize("hasAnyRole('ROLE_USER','ADMIN')")
     @Operation(summary = "Get order status by id")
     public ResponseEntity<Status> getOrderStatusById(@PathVariable Long id) {
-        Status status = orderService.getOrderStatusById(id);
+        Status status = orderStatusService.getOrderStatusById(id);
         return ResponseEntity.ok(status);
     }
     @PostMapping("/{id}/cancel")
@@ -51,7 +53,7 @@ public class OrderController {
     @Operation(summary = "Cancel order status")
     public ResponseEntity<String> cancelOrder(@PathVariable Long id) {
         try {
-            orderService.cancelOrder(id);
+            orderStatusService.cancelOrder(id);
             return ResponseEntity.ok("Order has been cancelled successfully.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -61,7 +63,7 @@ public class OrderController {
     @PreAuthorize("hasAnyRole('ROLE_USER','ADMIN')")
     @Operation(summary = "Update order status")
     public ResponseEntity<String> updateOrderStatuses() {
-        orderService.updateOrderStatus();
+        orderStatusService.updateOrderStatus();
         return ResponseEntity.ok("Order statuses have been updated successfully.");
     }
 
