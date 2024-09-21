@@ -25,9 +25,10 @@ import javax.management.relation.Role;
 @NoArgsConstructor
 public class UserDto {
     private String email;
-    private String passwordHash;
     private String name;
     private String phoneNumber;
-    private UserRole userRole;
+    private String password;
+
+
 
 }

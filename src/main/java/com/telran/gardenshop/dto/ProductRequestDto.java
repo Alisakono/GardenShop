@@ -28,6 +28,6 @@ public class ProductRequestDto {
 
     @NotNull(message = "Category ID is required")
     private Long categoryId;
-@NotNull
+    @NotNull
     private String imageUrl;
 }

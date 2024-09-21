@@ -32,7 +32,7 @@ public class CategoryController {
     @GetMapping
 
     @Operation(summary = "Retrieve all category")
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PreAuthorize("permitAll()")
     public List<CategoryDto> getCategories() {
         return service.getAll();
     }

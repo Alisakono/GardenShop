@@ -27,13 +27,15 @@ public class FavoriteController {
         this.favoriteService = favoriteService;
     }
     @PostMapping
+    @Operation(summary = "Add product to favorites")
     public ResponseEntity<Void> addProductToFavorites(@RequestParam String email, @RequestParam String productId) {
         favoriteService.addProductToFavorites(email, productId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/products/{email}")
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ADMIN')")
+    @Operation(summary = "Get products by email")
     public ResponseEntity<List<ProductDto>> getProductsByEmail(@PathVariable String email) {
         List<ProductDto> products = favoriteService.getProductsByEmail(email);
         if (!products.isEmpty()) {
@@ -43,7 +45,8 @@ public class FavoriteController {
         }
     }
     @GetMapping("/favorites")
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ADMIN')")
+    @Operation(summary = "Get favorite")
     public ResponseEntity<List<ProductDto>> getFavoriteProducts() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         List<ProductDto> products = favoriteService.getProductsByEmail(email);
