@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Allesklar123!  # Setze das Passwort für den root-Benutzer
+      MYSQL_DATABASE: garden  # Erstelle eine Datenbank mit diesem Namen
+      # MYSQL_USER und MYSQL_PASSWORD sollten entfernt werden, da root schon existiert
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+
+  app:
+    image: garden-spring-boot-docker
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/garden
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Allesklar123!
+    ports:
+      - "8080:8080"

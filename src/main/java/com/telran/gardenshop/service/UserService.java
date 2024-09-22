@@ -4,22 +4,12 @@ import com.telran.gardenshop.dto.UserDto;
 
 import com.telran.gardenshop.entity.Cart;
 import com.telran.gardenshop.entity.User;
-import com.telran.gardenshop.enums.UserRole;
 import com.telran.gardenshop.mapper.UserMapper;
 import com.telran.gardenshop.repository.CartRepository;
 import com.telran.gardenshop.repository.UserRepository;
-import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.Optional;
 
 @Service

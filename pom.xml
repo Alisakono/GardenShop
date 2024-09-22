@@ -67,6 +67,7 @@
             <scope>runtime</scope>
         </dependency>
 
+
         <!--        H2 database -->
         <dependency>
             <groupId>com.h2database</groupId>
@@ -187,6 +188,14 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 
