@@ -24,6 +24,8 @@ private String categoryId;
 private String imageUrl;
 private BigDecimal discountPrice;
 
+    public ProductResponseDto(long l, String s, BigDecimal bigDecimal, String s1, boolean b) {
+    }
 }
 
 
