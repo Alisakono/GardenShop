@@ -50,7 +50,7 @@ class ProductServiceTest {
 
         ProductResponseDto productResponseDto = service.addProduct(productRequestDto);
 
-        verify(repository).save(Mockito.any(Product.class));
+        verify(repository,times(1)).save(Mockito.any(Product.class));
         assertEquals(product.getName(), productResponseDto.getName());
     }
 

@@ -23,7 +23,7 @@ public class OrderController {
     private final OrderStatusService orderStatusService;
 
     @Autowired
-    public OrderController(OrderService orderService, UserRepository userRepository, OrderStatusService orderStatusService) {
+    public OrderController(OrderService orderService, OrderStatusService orderStatusService) {
         this.orderService = orderService;
         this.orderStatusService = orderStatusService;
     }
